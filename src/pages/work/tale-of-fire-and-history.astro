@@ -1,0 +1,355 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import ContactFooter from "../../components/ContactFooter.astro";
+
+const tags = ["Creative direction", "Script", "Motion design", "Film production"];
+
+const sections = [
+  {
+    heading: "The context",
+    body: "On September 2, 2018, Brazil's National History Museum in Rio de Janeiro caught fire. The blaze destroyed 90% of its entire collection — and the worst part: it was preventable. The cause wasn't negligence or bad luck, but the absence of a properly installed sprinkler system. And it wasn't an isolated case. Museums and historic buildings around the world shared the same vulnerability, accumulating silent risks that only became visible once the damage was already done.",
+  },
+  {
+    heading: "The challenge",
+    body: "ABSPK, the Brazilian sprinkler association, needed to turn that reality into awareness. The challenge was to create a campaign that made people truly understand what's at stake when historical heritage isn't properly protected against fire.",
+  },
+  {
+    heading: "The execution",
+    body: "As Creative Director at Urso Propaganda, I led “The Tale of Fire and History” from concept to execution — writing the script, directing the visual identity, and overseeing every creative front. We worked as a multidisciplinary team, bringing together design, motion, and film production to craft a narrative that was both striking and educational.",
+  },
+];
+
+const gallery = [
+  {
+    src: "/images/work/tale-of-fire-and-history/fire-hands.jpg",
+    alt: "Illustrated bonfire with hands reaching toward the flames",
+    width: 960,
+    height: 540,
+    full: true,
+  },
+  {
+    src: "/images/work/tale-of-fire-and-history/torch-glow.gif",
+    alt: "Glowing embers shaped like a torch, animated",
+    width: 600,
+    height: 338,
+    full: false,
+  },
+  {
+    src: "/images/work/tale-of-fire-and-history/frying-pan.jpg",
+    alt: "Illustrated frying pan with egg and bacon, balanced over a bonfire",
+    width: 960,
+    height: 540,
+    full: false,
+  },
+  {
+    src: "/images/work/tale-of-fire-and-history.gif",
+    alt: "Animated rocket launching over flames",
+    width: 600,
+    height: 338,
+    full: true,
+  },
+  {
+    src: "/images/work/tale-of-fire-and-history/memoria.gif",
+    alt: "“Memória” spelled out in burning embers",
+    width: 600,
+    height: 338,
+    full: true,
+  },
+];
+---
+
+<Layout
+  title="The Tale of Fire and History — Filipe Sales"
+  description="A campaign that turned a preventable tragedy into a national case for fire prevention, created for ABSPK while Creative Director at Urso Propaganda."
+>
+  <Nav base="/" />
+  <main id="main">
+    <article class="case">
+      <header class="container case__header">
+        <p class="case__crumb" data-reveal data-reveal-group="case-head">
+          <a href="/#work">Work</a> / The Tale of Fire and History
+        </p>
+        <p class="case__meta" data-reveal data-reveal-group="case-head" data-reveal-delay="60">
+          Film — 2019
+        </p>
+        <h1 class="case__title" data-reveal data-reveal-group="case-head" data-reveal-delay="120">
+          The tale of<br />fire and history
+        </h1>
+
+        <div class="case__intro">
+          <div class="case__intro-col" data-reveal data-reveal-group="case-head" data-reveal-delay="200">
+            <p class="case__tagline">— Campaign &amp; film for ABSPK</p>
+            <ul class="case__tags">
+              {tags.map((tag) => (
+                <li>{tag}</li>
+              ))}
+            </ul>
+          </div>
+          <p
+            class="case__summary prose"
+            data-reveal
+            data-reveal-group="case-head"
+            data-reveal-delay="260"
+          >
+            A campaign built to put an urgent, underrepresented issue on the agenda — making
+            the case that protecting history is also an act of responsibility toward the
+            future.
+          </p>
+        </div>
+      </header>
+
+      <div class="container">
+        <figure class="case__video" data-reveal data-reveal-group="case-media">
+          <video
+            class="case__video-player"
+            src="/videos/tale-of-fire-and-history.mp4"
+            poster="/images/work/tale-of-fire-and-history/fire-hands.jpg"
+            controls
+            preload="metadata"
+            playsinline
+          >
+            <p>
+              Your browser doesn't support embedded video. You can
+              <a href="/videos/tale-of-fire-and-history.mp4">download the film</a> instead.
+            </p>
+          </video>
+        </figure>
+      </div>
+
+      <div class="container case__sections">
+        {sections.map((section, i) => (
+          <div
+            class="case__section"
+            data-reveal
+            data-reveal-group="case-sections"
+            data-reveal-delay={i * 80}
+          >
+            <h2 class="case__section-heading">{section.heading}</h2>
+            <p class="prose case__section-body">{section.body}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="case__gallery">
+        {gallery.map((item) => (
+          <figure
+            class:list={["case__gallery-item", { "case__gallery-item--full": item.full }]}
+            data-reveal
+            data-reveal-group="case-gallery"
+          >
+            <img
+              src={item.src}
+              alt={item.alt}
+              loading="lazy"
+              decoding="async"
+              width={item.width}
+              height={item.height}
+            />
+          </figure>
+        ))}
+      </div>
+
+      <a class="case__next" href="/work/logofolio/">
+        <div class="container case__next-inner">
+          <span class="case__next-label">Next project</span>
+          <span class="case__next-title">Logofolio</span>
+          <span class="case__next-category">Brand design →</span>
+        </div>
+      </a>
+    </article>
+  </main>
+
+  <ContactFooter />
+</Layout>
+
+<style>
+  .case__header {
+    padding-block: var(--space-3xl) var(--space-2xl);
+  }
+
+  .case__crumb {
+    font-size: var(--text-label);
+    color: var(--color-muted);
+    margin-bottom: var(--space-md);
+  }
+
+  .case__crumb a {
+    transition: color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .case__crumb a:hover,
+  .case__crumb a:focus-visible {
+    color: var(--color-primary);
+  }
+
+  .case__meta {
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: var(--space-sm);
+  }
+
+  .case__title {
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    max-width: 20ch;
+  }
+
+  .case__intro {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xl);
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .case__intro-col {
+    flex: 1 1 260px;
+  }
+
+  .case__tagline {
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: var(--space-md);
+  }
+
+  .case__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .case__tags li {
+    padding: var(--space-2xs) var(--space-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-label);
+    color: var(--color-muted);
+  }
+
+  .case__summary {
+    flex: 1 1 320px;
+    color: var(--color-muted-strong);
+    font-size: var(--text-body-lg);
+    max-width: 48ch;
+  }
+
+  .case__video {
+    position: relative;
+    margin: 0 0 var(--space-3xl);
+    border-radius: clamp(16px, 2.4vw, 28px);
+    overflow: hidden;
+    background: var(--color-ink);
+  }
+
+  .case__video-player {
+    display: block;
+    width: 100%;
+    max-height: 80vh;
+    background: var(--color-ink);
+  }
+
+  .case__sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: var(--space-2xl) var(--space-2xl);
+    padding-bottom: var(--space-3xl);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .case__section-heading {
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: var(--space-md);
+  }
+
+  .case__section-body {
+    color: var(--color-muted-strong);
+    max-width: 52ch;
+  }
+
+  .case__gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    padding-block: var(--space-3xl);
+  }
+
+  .case__gallery-item {
+    margin: 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-ink);
+  }
+
+  .case__gallery-item--full {
+    grid-column: 1 / -1;
+  }
+
+  .case__gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .case__next {
+    display: block;
+    background: var(--color-primary);
+    transition: background var(--duration-base) var(--ease-out-quart);
+  }
+
+  .case__next:hover,
+  .case__next:focus-visible {
+    background: oklch(45% 0.09 150);
+  }
+
+  .case__next-inner {
+    padding-block: var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .case__next-label {
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: oklch(98% 0 0 / 75%);
+  }
+
+  .case__next-title {
+    font-family: var(--font-display);
+    font-size: var(--text-headline);
+    line-height: var(--leading-headline);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    color: oklch(98% 0 0);
+  }
+
+  .case__next-category {
+    font-size: var(--text-label);
+    color: oklch(98% 0 0 / 80%);
+  }
+
+  @media (max-width: 40rem) {
+    .case__gallery {
+      grid-template-columns: 1fr;
+    }
+
+    .case__gallery-item {
+      grid-column: auto;
+    }
+  }
+</style>

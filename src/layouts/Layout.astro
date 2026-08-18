@@ -1,0 +1,66 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <slot />
+    <script>
+      import { inView, animate } from "motion";
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      if (!prefersReducedMotion) {
+        const groups = new Map<string, HTMLElement[]>();
+        document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
+          const group = el.dataset.revealGroup ?? el.dataset.reveal ?? "default";
+          const list = groups.get(group) ?? [];
+          list.push(el);
+          groups.set(group, list);
+        });
+
+        groups.forEach((els) => {
+          inView(
+            els[0],
+            () => {
+              els.forEach((el, i) => {
+                const delay = Number(el.dataset.revealDelay ?? i * 90);
+                window.setTimeout(() => el.classList.add("is-revealed"), delay);
+              });
+            },
+            { amount: 0.3, margin: "0px 0px -10% 0px" },
+          );
+        });
+      } else {
+        document
+          .querySelectorAll<HTMLElement>("[data-reveal]")
+          .forEach((el) => el.classList.add("is-revealed"));
+      }
+    </script>
+  </body>
+</html>

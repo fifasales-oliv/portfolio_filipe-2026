@@ -1,0 +1,238 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import AboutContact from "../../components/AboutContact.astro";
+import { projects } from "../../data/projects";
+
+// "tale-of-fire-and-history" and "dont-feed-this-monster" have their own bespoke pages;
+// they stay in the `projects` array only so the other case studies can still link to them
+// as their "next project", but they're excluded here to avoid duplicate routes.
+export function getStaticPaths() {
+  const bespokeSlugs = ["tale-of-fire-and-history", "dont-feed-this-monster"];
+
+  return projects
+    .filter((project) => !bespokeSlugs.includes(project.slug))
+    .map((project) => {
+      const index = projects.findIndex((p) => p.slug === project.slug);
+      return {
+        params: { slug: project.slug },
+        props: {
+          project,
+          next: projects[(index + 1) % projects.length],
+        },
+      };
+    });
+}
+
+const { project, next } = Astro.props;
+---
+
+<Layout
+  title={`${project.title} — Filipe Sales`}
+  description={project.summary}
+>
+  <Nav base="/" />
+  <main id="main">
+    <article class="case">
+      <header class="container case__header">
+        <a class="case__back" href="/#work">← Back to work</a>
+        {(project.client || project.year) && (
+          <p class="case__meta" data-reveal data-reveal-group="case-head">
+            {[project.client, project.year].filter(Boolean).join(" · ")}
+          </p>
+        )}
+        <h1 class="case__title" data-reveal data-reveal-group="case-head" data-reveal-delay="100">
+          {project.title}
+        </h1>
+        <p class="case__summary prose" data-reveal data-reveal-group="case-head" data-reveal-delay="200">
+          {project.summary}
+        </p>
+        <ul class="case__roles" data-reveal data-reveal-group="case-head" data-reveal-delay="300">
+          {project.role.map((r) => (
+            <li>{r}</li>
+          ))}
+        </ul>
+      </header>
+
+      {project.detailImage && (
+        <figure class="case__figure" data-reveal data-reveal-group="case-media">
+          <img
+            src={project.detailImage}
+            alt={project.detailImageAlt}
+            loading="eager"
+            decoding="async"
+            width="1600"
+            height="1067"
+          />
+        </figure>
+      )}
+
+      <div class="container case__body">
+        <p class="prose case__description" data-reveal data-reveal-group="case-body">
+          {project.description}
+        </p>
+      </div>
+
+      {project.gallery && (
+        <div class="container case__gallery">
+          {project.gallery.map((item, i) => (
+            <figure
+              class="case__gallery-item"
+              data-reveal
+              data-reveal-group="case-gallery"
+              data-reveal-delay={Math.min(i * 40, 320)}
+            >
+              <img
+                src={item.src}
+                alt={item.alt}
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          ))}
+        </div>
+      )}
+
+      <div class="container case__next">
+        <a class="case__next-link" href={`/work/${next.slug}/`}>
+          <span class="case__next-label">Next project</span>
+          <span class="case__next-title">{next.title}</span>
+        </a>
+      </div>
+    </article>
+
+    <AboutContact />
+  </main>
+</Layout>
+
+<style>
+  .case__header {
+    padding-block: var(--space-3xl) var(--space-2xl);
+    max-width: 56rem;
+  }
+
+  .case__back {
+    display: inline-block;
+    color: var(--color-muted);
+    font-size: var(--text-label);
+    margin-bottom: var(--space-xl);
+    transition: color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .case__back:hover,
+  .case__back:focus-visible {
+    color: var(--color-ink);
+  }
+
+  .case__meta {
+    color: var(--color-muted);
+    font-size: var(--text-label);
+    margin-bottom: var(--space-sm);
+  }
+
+  .case__title {
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .case__summary {
+    margin-top: var(--space-lg);
+    font-size: var(--text-body-lg);
+    color: var(--color-muted);
+    max-width: 42ch;
+  }
+
+  .case__roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin: var(--space-xl) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .case__roles li {
+    padding: var(--space-2xs) var(--space-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-label);
+    color: var(--color-muted);
+  }
+
+  .case__figure {
+    margin: 0;
+  }
+
+  .case__figure img {
+    width: 100%;
+    max-height: 80vh;
+    object-fit: cover;
+  }
+
+  .case__body {
+    padding-block: var(--space-2xl);
+  }
+
+  .case__description {
+    font-size: var(--text-body-lg);
+    color: var(--color-muted);
+  }
+
+  .case__gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: var(--space-lg);
+    padding-block: var(--space-lg) var(--space-2xl);
+  }
+
+  .case__gallery-item {
+    margin: 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+
+  .case__gallery-item img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    transition: transform var(--duration-slow) var(--ease-out-quart);
+  }
+
+  .case__gallery-item:hover img,
+  .case__gallery-item:focus-within img {
+    transform: scale(1.04);
+  }
+
+  .case__next {
+    border-top: 1px solid var(--color-border);
+    padding-block: var(--space-2xl);
+  }
+
+  .case__next-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    transition: color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .case__next-link:hover,
+  .case__next-link:focus-visible {
+    color: var(--color-primary);
+  }
+
+  .case__next-label {
+    font-size: var(--text-label);
+    color: var(--color-muted);
+  }
+
+  .case__next-title {
+    font-family: var(--font-display);
+    font-size: var(--text-headline);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+  }
+</style>

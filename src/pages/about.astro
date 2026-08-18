@@ -1,0 +1,559 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import ContactFooter from "../components/ContactFooter.astro";
+import { experience } from "../data/experience";
+import { education } from "../data/education";
+
+const highlights = [
+  "17+ years in brand design, strategy, and creative direction",
+  "Co-founded and scaled a creative agency",
+  "100+ brands created across Brazil, USA, Australia, Portugal, Mexico, and Colombia",
+  "Led rebranding and M&A brand integration at Cortex",
+  "Speaker and workshop facilitator on branding and creativity at universities, companies, and events — including HackTown 2025",
+];
+
+const additionalTraining = [
+  "Strategy Camp",
+  "Naming",
+  "Arquitetura de marcas",
+  "Gestão avançada de marcas",
+  "Design System",
+  "Identidade Visual",
+  "Direção de arte",
+  "Liderança Criativa",
+  "Técnicas de criatividade",
+];
+
+const educationLogos = [
+  { src: "/images/about/logos/brandster.png", alt: "Brandster logo", width: 200, height: 200 },
+  { src: "/images/about/logos/the-ugly-lab.jpg", alt: "The Ugly Lab logo", width: 400, height: 400 },
+  { src: "/images/about/logos/miami-ad-school.svg", alt: "Miami Ad School logo", width: 1022, height: 514 },
+];
+---
+
+<Layout
+  title="About — Filipe Sales"
+  description="Filipe Sales is a brand strategist and visual designer with 17+ years of experience in creative direction and brand strategy, based in Brazil."
+>
+  <Nav base="/" />
+  <main id="main">
+    <section class="about-hero" id="top">
+      <div class="container">
+        <span class="about-hero__label" data-reveal data-reveal-group="about-hero">About</span>
+        <h1 class="about-hero__name">
+          <span data-reveal data-reveal-group="about-hero" data-reveal-delay="60">Filipe</span>
+          <span data-reveal data-reveal-group="about-hero" data-reveal-delay="140">Sales</span>
+        </h1>
+        <p class="about-hero__role" data-reveal data-reveal-group="about-hero" data-reveal-delay="220">
+          Brand Strategist &amp; Visual Designer
+        </p>
+        <span
+          class="about-hero__location"
+          data-reveal
+          data-reveal-group="about-hero"
+          data-reveal-delay="280"
+        >
+          Based in Brazil
+        </span>
+      </div>
+    </section>
+
+    <section class="bio">
+      <div class="container bio__inner">
+        <figure class="bio__photo" data-reveal data-reveal-group="bio">
+          <img
+            src="/images/about/filipe-about.jpg"
+            alt="Filipe Sales sitting on a chair in a studio, in front of a wall covered in hand-drawn doodles"
+            loading="lazy"
+            decoding="async"
+            width="1600"
+            height="1110"
+          />
+        </figure>
+        <div class="bio__content" data-reveal data-reveal-group="bio" data-reveal-delay="120">
+          <p class="bio__lede">I design brands that earn their place in the boardroom.</p>
+          <p class="prose">
+            I'm a brand strategist and visual designer with 17+ years working at the
+            intersection of creative direction, brand strategy, and business impact. My
+            career started in agencies and evolved through co-founding one — building it
+            from zero to an awarded advertising agency and leading creative work for
+            national and international clients across six countries.
+          </p>
+          <p class="prose">
+            Today I lead the branding team at Cortex, Brazil's leading AI platform for GTM
+            Intelligence. My work spans strategy and execution — from running the internal
+            team and managing external creatives, to developing brand strategies, leading
+            visual identity projects from scratch, building AI-powered brand tools, and
+            designing the processes that keep everything consistent.
+          </p>
+          <p class="prose">
+            I believe good brand design is a business argument made visually. The best
+            work I've done has always started with a strategic problem and ended with
+            something people remember.
+          </p>
+
+          <div class="bio__highlights">
+            <h2 class="bio__highlights-heading" data-reveal data-reveal-group="highlights">
+              Career highlights
+            </h2>
+            <ul class="bio__highlights-list">
+              {highlights.map((text, i) => (
+                <li data-reveal data-reveal-group="highlights-list" data-reveal-delay={i * 70}>
+                  {text}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="bio__actions">
+            <a class="bio__action" href="mailto:hello@filipesales.studio">
+              Let's talk <span class="bio__action-arrow">→</span>
+            </a>
+            <a class="bio__action" href="/#work">
+              See work <span class="bio__action-arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="experience">
+      <div class="container experience__inner">
+        <h2 class="experience__heading" data-reveal data-reveal-group="experience">
+          Work<br />experience
+        </h2>
+        <ul class="experience__list">
+          {experience.map((job, i) => (
+            <li
+              class="experience__item"
+              data-reveal
+              data-reveal-group="experience-list"
+              data-reveal-delay={Math.min(i * 50, 400)}
+            >
+              <span class="experience__index">{String(i + 1).padStart(2, "0")}</span>
+              <span class="experience__title">
+                <span class="experience__role">{job.role}</span>
+                <span class="experience__meta">
+                  {job.company} · {job.years}
+                </span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="education education--last">
+      <div class="container education__inner">
+        <h2 class="education__heading" data-reveal data-reveal-group="education">Education</h2>
+        <div class="education__col">
+          <ul class="education__list">
+            {education.map((item, i) => (
+              <li
+                class="education__item"
+                data-reveal
+                data-reveal-group="education-list"
+                data-reveal-delay={i * 90}
+              >
+                <span class="education__degree">{item.degree}</span>
+                <span class="education__meta">
+                  {item.institution} · {item.years}
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="education__extra">
+            <h3
+              class="education__extra-heading"
+              data-reveal
+              data-reveal-group="additional-training"
+            >
+              Additional training
+            </h3>
+            <ul class="education__tags">
+              {additionalTraining.map((item, i) => (
+                <li
+                  data-reveal
+                  data-reveal-group="additional-training-tags"
+                  data-reveal-delay={Math.min(i * 40, 320)}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <ul
+              class="education__logos"
+              data-reveal
+              data-reveal-group="additional-training"
+              data-reveal-delay="120"
+            >
+              {educationLogos.map((logo) => (
+                <li class="education__logo">
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    loading="lazy"
+                    decoding="async"
+                    width={logo.width}
+                    height={logo.height}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <ContactFooter />
+</Layout>
+
+<style>
+  .about-hero {
+    padding-block: clamp(60px, 9vw, 110px) clamp(48px, 6vw, 80px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .about-hero__label {
+    display: block;
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .about-hero__name {
+    margin-top: clamp(48px, 9vw, 110px);
+    font-size: clamp(3rem, 9vw, 7.5rem);
+    line-height: 0.9;
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+  }
+
+  .about-hero__name span {
+    display: block;
+  }
+
+  .about-hero__role {
+    margin-top: clamp(20px, 3vw, 32px);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.25rem, 1rem + 1.2vw, 1.75rem);
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+  }
+
+  .about-hero__location {
+    display: block;
+    margin-top: var(--space-sm);
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .bio {
+    padding-block: clamp(60px, 9vw, 110px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .bio__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(40px, 6vw, 80px);
+  }
+
+  .bio__photo {
+    flex: 1 1 280px;
+    max-width: 380px;
+    margin: 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-surface);
+  }
+
+  .bio__photo img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .bio__content {
+    flex: 2 1 420px;
+    min-width: 280px;
+  }
+
+  .bio__lede {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
+    line-height: 1.15;
+    letter-spacing: var(--tracking-display);
+    color: var(--color-ink);
+    max-width: 20ch;
+    margin-bottom: var(--space-xl);
+  }
+
+  .bio__content p.prose {
+    color: var(--color-muted-strong);
+    font-size: var(--text-body-lg);
+    max-width: 56ch;
+    margin-bottom: var(--space-md);
+  }
+
+  .bio__content p.prose:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .bio__highlights {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .bio__highlights-heading {
+    font-size: var(--text-title);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    margin-bottom: var(--space-lg);
+  }
+
+  .bio__highlights-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .bio__highlights-list li {
+    position: relative;
+    padding-left: var(--space-lg);
+    color: var(--color-muted-strong);
+    max-width: 62ch;
+  }
+
+  .bio__highlights-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+  }
+
+  .bio__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+  }
+
+  .bio__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 2px;
+    transition:
+      gap var(--duration-fast) var(--ease-out-quart),
+      color var(--duration-fast) var(--ease-out-quart),
+      border-color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .bio__action:hover,
+  .bio__action:focus-visible {
+    gap: 12px;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .experience {
+    padding-block: clamp(60px, 9vw, 110px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .experience__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(32px, 6vw, 64px);
+  }
+
+  .experience__heading {
+    flex: 1 1 240px;
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    line-height: 0.92;
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+  }
+
+  .experience__list {
+    flex: 2 1 480px;
+    min-width: 280px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .experience__item {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-lg);
+    padding-block: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .experience__index {
+    font-size: var(--text-label);
+    color: var(--color-faint);
+    flex-shrink: 0;
+  }
+
+  .experience__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2xs) var(--space-sm);
+    flex: 1;
+  }
+
+  .experience__role {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .experience__meta {
+    font-size: var(--text-label);
+    color: var(--color-muted);
+  }
+
+  .education {
+    padding-block: clamp(60px, 9vw, 110px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .education--last {
+    border-bottom: none;
+  }
+
+  .education__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(32px, 6vw, 64px);
+  }
+
+  .education__heading {
+    flex: 1 1 240px;
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    line-height: 0.92;
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+  }
+
+  .education__col {
+    flex: 2 1 480px;
+    min-width: 280px;
+  }
+
+  .education__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .education__item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-block: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .education__degree {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .education__meta {
+    font-size: var(--text-label);
+    color: var(--color-muted);
+  }
+
+  .education__extra {
+    margin-top: var(--space-xl);
+  }
+
+  .education__extra-heading {
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: var(--space-md);
+  }
+
+  .education__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    list-style: none;
+    margin: 0 0 var(--space-lg);
+    padding: 0;
+  }
+
+  .education__tags li {
+    padding: var(--space-2xs) var(--space-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-label);
+    color: var(--color-muted-strong);
+  }
+
+  .education__logos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .education__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+  }
+
+  .education__logo img {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  @media (max-width: 40rem) {
+    .experience__item {
+      flex-direction: column;
+      gap: var(--space-2xs);
+    }
+
+    .experience__title {
+      flex-direction: column;
+      gap: 2px;
+    }
+  }
+</style>

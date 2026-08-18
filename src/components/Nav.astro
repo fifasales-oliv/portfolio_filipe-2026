@@ -1,0 +1,86 @@
+---
+interface Props {
+  base?: string;
+}
+
+const { base = "" } = Astro.props;
+---
+
+<header class="nav" data-nav>
+  <div class="container nav__inner">
+    <a class="nav__mark" href={`${base}#top`}>FILIPE SALES</a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href={`${base}#work`}>Work</a>
+      <a href="/about/">About</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition:
+      background var(--duration-base) var(--ease-out-quart),
+      border-color var(--duration-base) var(--ease-out-quart);
+  }
+
+  .nav.is-scrolled {
+    background: oklch(95.5% 0.009 92 / 82%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid oklch(86% 0.008 86 / 70%);
+  }
+
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--space-sm);
+  }
+
+  .nav__mark {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.3125rem;
+    letter-spacing: 0.01em;
+  }
+
+  .nav__links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    font-size: 0.906rem;
+  }
+
+  .nav__links a {
+    padding: var(--space-2xs) 0;
+    color: var(--color-muted);
+    transition: color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .nav__links a:hover,
+  .nav__links a:focus-visible {
+    color: var(--color-ink);
+  }
+
+  @media (max-width: 36rem) {
+    .nav__links {
+      gap: var(--space-md);
+    }
+  }
+</style>
+
+<script>
+  const nav = document.querySelector<HTMLElement>("[data-nav]");
+  if (nav) {
+    const onScroll = () => {
+      nav.classList.toggle("is-scrolled", window.scrollY > 40);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+</script>

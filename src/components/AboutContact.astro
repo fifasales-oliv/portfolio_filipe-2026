@@ -1,0 +1,85 @@
+---
+import ContactFooter from "./ContactFooter.astro";
+---
+
+<section class="about" id="about">
+  <div class="container about__inner">
+    <div class="about__heading" data-reveal data-reveal-group="about">
+      <h2>About</h2>
+    </div>
+    <div class="about__copy" data-reveal data-reveal-group="about" data-reveal-delay="120">
+      <p class="about__lede">
+        A brand strategist's own site is the strongest case study he has.
+      </p>
+      <p class="prose">
+        For the better part of a decade, Filipe Sales has helped founders and teams find
+        the sharpest version of what they're trying to say — then make it look inevitable.
+        Strategy and craft come from the same hand, so the thinking survives contact with
+        the real world.
+      </p>
+      <p class="prose">
+        The work spans identity systems, environmental branding, packaging, digital
+        product, and positioning — but the job is always the same: make a point of view
+        impossible to ignore.
+      </p>
+    </div>
+  </div>
+</section>
+
+<ContactFooter />
+
+<style>
+  .about {
+    padding-block: clamp(70px, 10vw, 140px);
+    background: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .about__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(40px, 7vw, 110px);
+  }
+
+  .about__heading {
+    flex: 1 1 280px;
+    min-width: 260px;
+  }
+
+  .about__heading h2 {
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    line-height: 0.92;
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+  }
+
+  .about__copy {
+    flex: 2 1 460px;
+    min-width: 320px;
+  }
+
+  .about__lede {
+    font-size: clamp(1.19rem, 1rem + 1vw, 1.625rem);
+    line-height: 1.5;
+    font-weight: 500;
+    color: var(--color-ink-soft);
+    max-width: 40ch;
+    margin-bottom: var(--space-lg);
+  }
+
+  .about__copy p.prose {
+    color: var(--color-muted-strong);
+    max-width: 62ch;
+    margin-bottom: var(--space-md);
+  }
+
+  .about__copy p.prose:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 56rem) {
+    .about__inner {
+      flex-direction: column;
+    }
+  }
+</style>

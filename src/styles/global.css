@@ -1,0 +1,231 @@
+@font-face {
+  font-family: "Big Shoulders Display";
+  src: local("Big Shoulders Display");
+}
+
+:root {
+  /* Color: Kiln Ember system — cream stage, committed green ember */
+  --color-bg: oklch(95.5% 0.009 92);
+  --color-bg-alt: oklch(92.5% 0.011 90);
+  --color-surface: oklch(90% 0.011 88);
+  --color-border: oklch(86% 0.008 86);
+  --color-ink: oklch(26% 0.014 85);
+  --color-ink-soft: oklch(34% 0.013 80);
+  --color-muted: oklch(48% 0.014 74);
+  --color-muted-strong: oklch(43% 0.013 76);
+  --color-faint: oklch(55% 0.013 68);
+  --color-primary: oklch(50% 0.085 150);
+  --color-primary-glow: oklch(58% 0.075 150);
+  --color-primary-glow-core: oklch(60% 0.07 150);
+  --color-on-primary: oklch(98% 0 0);
+
+  /* Typography */
+  --font-display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --font-body: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --text-display: clamp(2.75rem, 1.5rem + 5.5vw, 6rem);
+  --text-headline: clamp(2rem, 1.25rem + 3vw, 3.5rem);
+  --text-title: clamp(1.375rem, 1.1rem + 1vw, 2rem);
+  --text-body-lg: 1.25rem;
+  --text-body: 1.125rem;
+  --text-label: 0.875rem;
+
+  --leading-display: 0.9;
+  --leading-headline: 1.05;
+  --leading-title: 1.2;
+  --leading-body: 1.6;
+
+  --tracking-display: -0.005em;
+  --tracking-label: 0.06em;
+
+  /* Spacing (4pt base) */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: clamp(6rem, 4rem + 8vw, 10rem);
+
+  /* Radius — sharp, industrial */
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-full: 999px;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --duration-fast: 200ms;
+  --duration-base: 450ms;
+  --duration-slow: 750ms;
+  --duration-choreo: 950ms;
+
+  /* z-index scale */
+  --z-base: 0;
+  --z-sticky: 20;
+  --z-overlay: 30;
+  --z-modal: 40;
+  --z-toast: 50;
+
+  --measure: 68ch;
+  --container-max: 90rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-primary-glow);
+  color: var(--color-ink);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+}
+
+p.prose,
+.prose p {
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-sm);
+  z-index: var(--z-toast);
+  padding: var(--space-2xs) var(--space-sm);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border-radius: var(--radius-sm);
+  transition: top var(--duration-fast) var(--ease-out-quart);
+}
+
+.skip-link:focus-visible {
+  top: var(--space-sm);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 1rem + 2vw, 4rem);
+}
+
+/* Reveal primitives: visible by default, motion enhances */
+[data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--duration-slow) var(--ease-out-expo),
+      transform var(--duration-slow) var(--ease-out-expo);
+  }
+}
+
+/* Ember glow — used behind the hero and closing sections */
+.ember-glow {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  animation: ember-drift 14s ease-in-out infinite;
+}
+
+@keyframes ember-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(-3%, 4%, 0) scale(1.08);
+    opacity: 0.8;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .ember-glow {
+    animation: none;
+  }
+}

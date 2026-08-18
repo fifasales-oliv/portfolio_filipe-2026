@@ -1,0 +1,131 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__top">
+    <div class="footer__group">
+      <div class="footer__col">
+        <span class="footer__label">Location</span>
+        <span class="footer__value">Brazil</span>
+      </div>
+      <div class="footer__col">
+        <span class="footer__label">Contact</span>
+        <a class="footer__value" href="mailto:hello@filipesales.studio">hello@filipesales.studio</a>
+      </div>
+    </div>
+    <div class="footer__col">
+      <span class="footer__label">Social</span>
+      <a
+        class="footer__value"
+        href="https://www.linkedin.com/in/filipesales/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        LinkedIn
+      </a>
+      <a
+        class="footer__value"
+        href="https://www.behance.net/filipe_sales"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Behance
+      </a>
+      <a
+        class="footer__value"
+        href="https://dribbble.com/fifasales"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Dribbble
+      </a>
+    </div>
+  </div>
+
+  <div class="footer__wordmark-wrap">
+    <span class="footer__copy">© {year}</span>
+    <p class="footer__wordmark" aria-hidden="true">Filipe Sales</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .footer__top {
+    padding-block: clamp(48px, 7vw, 80px) clamp(24px, 4vw, 40px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(40px, 6vw, 80px);
+  }
+
+  .footer__group {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(28px, 4vw, 40px);
+  }
+
+  .footer__col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer__label {
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .footer__value {
+    font-size: 1rem;
+    color: var(--color-ink);
+  }
+
+  a.footer__value {
+    transition: color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  a.footer__value:hover,
+  a.footer__value:focus-visible {
+    color: var(--color-primary);
+  }
+
+  .footer__wordmark-wrap {
+    position: relative;
+    border-top: 1px solid var(--color-border);
+    padding-block: clamp(20px, 3vw, 32px) clamp(8px, 2vw, 20px);
+  }
+
+  .footer__copy {
+    position: absolute;
+    top: clamp(20px, 3vw, 32px);
+    right: clamp(1.25rem, 1rem + 2vw, 4rem);
+    font-size: var(--text-label);
+    color: var(--color-faint);
+  }
+
+  .footer__wordmark {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    font-size: clamp(3rem, 13vw, 11rem);
+    line-height: 0.85;
+    text-align: center;
+    color: var(--color-ink);
+    padding-block: clamp(8px, 2vw, 16px);
+  }
+
+  @media (max-width: 56rem) {
+    .footer__copy {
+      position: static;
+      display: block;
+      margin-bottom: var(--space-md);
+    }
+  }
+</style>

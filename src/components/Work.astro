@@ -1,0 +1,83 @@
+---
+import { workCards } from "../data/workCards";
+import WorkCard from "./WorkCard.astro";
+
+const half = Math.ceil(workCards.length / 2);
+const columnOne = workCards.slice(0, half);
+const columnTwo = workCards.slice(half);
+---
+
+<section class="work" id="work">
+  <div class="container">
+    <div class="work__heading" data-reveal data-reveal-group="work-heading">
+      <h2>Work</h2>
+    </div>
+
+    <div class="work__grid">
+      <div class="work__column">
+        {columnOne.map((card) => <WorkCard card={card} />)}
+      </div>
+      <div class="work__column work__column--offset">
+        {columnTwo.map((card) => <WorkCard card={card} />)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .work {
+    padding-block: clamp(70px, 10vw, 140px);
+  }
+
+  .work__heading {
+    margin-bottom: clamp(48px, 7vw, 90px);
+  }
+
+  .work__heading h2 {
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    line-height: 0.92;
+    letter-spacing: var(--tracking-display);
+    text-transform: uppercase;
+  }
+
+  .work__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+    gap: clamp(28px, 4vw, 72px);
+    align-items: start;
+  }
+
+  .work__column {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(56px, 8vw, 120px);
+  }
+
+  .work__column--offset {
+    margin-top: clamp(40px, 10vw, 160px);
+  }
+
+  @media (max-width: 56rem) {
+    .work__column--offset {
+      margin-top: 0;
+    }
+  }
+
+  /* Hover focus: blur and shrink sibling cards while the hovered one stays sharp */
+  .work__grid:hover :global(.card) {
+    filter: blur(4px);
+    transform: scale(0.93);
+  }
+
+  .work__grid:hover :global(.card:hover) {
+    filter: none;
+    transform: none;
+  }
+
+  @media (hover: none) {
+    .work__grid:hover :global(.card) {
+      filter: none;
+      transform: none;
+    }
+  }
+</style>

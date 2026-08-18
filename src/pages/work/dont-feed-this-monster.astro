@@ -1,0 +1,513 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import ContactFooter from "../../components/ContactFooter.astro";
+
+const tags = ["Concept & creative direction", "Character illustration", "Campaign design"];
+
+const sections = [
+  {
+    heading: "The context",
+    body: "Omega Food runs restaurant operations for companies and hospitals across Brazil, serving over 8,000 employees daily with a mission centered on healthy, quality meals. But a quiet problem was undermining that mission from the inside: people were consistently taking more food than they could eat, and plate after plate was ending up in the trash. The scale of waste was significant — and the standard approach of informational posters and generic messaging wasn't moving the needle.",
+  },
+  {
+    heading: "The challenge",
+    body: "The brief was clear but the challenge was real: how do you change the behavior of thousands of people across multiple corporate environments, without sounding preachy or blending into the background noise of typical sustainability communication?",
+  },
+  {
+    heading: "The execution",
+    body: "I led the concept and execution of “Don't Feed This Monster” — a campaign built on a simple but disruptive insight: food waste is invisible because people don't see it as a threat. So we made it one. We created a cast of original monsters that literally fed on food scraps, each one growing stronger with every wasted meal. The visual language was bold, unexpected, and deliberately far from the guilt-driven tone that usually surrounds this topic. Instead of lecturing, we gave people a villain to fight against. The campaign rolled out across posters, stickers, placemats, and social media — touching every moment of the meal experience, from the moment employees walked in to the moment they sat down to eat.",
+  },
+];
+
+const stats = [
+  { value: "30%", label: "Drop in food waste across restaurants where it ran" },
+  { value: "8,000+", label: "Employees reached daily" },
+  { value: "4", label: "Touchpoints — posters, stickers, placemats & social" },
+];
+
+const gallery = [
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-6.jpg",
+    alt: "Pink dinosaur monster poster shown flat and held up against a blue backdrop",
+    width: 1600,
+    height: 1066,
+    full: true,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-5.jpg",
+    alt: "Blue mouth monster poster shown flat and held up against a blue backdrop",
+    width: 1600,
+    height: 1066,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-4.jpg",
+    alt: "Three overlapping posters from the Don't Feed This Monster series in blue, orange, and green",
+    width: 1600,
+    height: 1066,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-1.jpg",
+    alt: "Close-up crop of the pink dinosaur monster poster",
+    width: 1600,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-3.jpg",
+    alt: "Close-up crop of the horned monster poster wearing a bucket hat",
+    width: 1600,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-stickers.jpg",
+    alt: "Sticker set featuring the full cast of Don't Feed This Monster characters",
+    width: 1600,
+    height: 1048,
+    full: true,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-a3-02.jpg",
+    alt: "Purple horned monster poster from the Don't Feed This Monster campaign",
+    width: 1138,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-a3-03.jpg",
+    alt: "Blue hooded monster poster from the Don't Feed This Monster campaign",
+    width: 1138,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-a3-04.jpg",
+    alt: "Melting popsicle-headed monster poster from the Don't Feed This Monster campaign",
+    width: 1139,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-a3-05.jpg",
+    alt: "Teal trash monster poster from the Don't Feed This Monster campaign",
+    width: 1138,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-a3-06.jpg",
+    alt: "Green robot monster poster from the Don't Feed This Monster campaign",
+    width: 1138,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-a3-07.jpg",
+    alt: "Pink crowned monster poster from the Don't Feed This Monster campaign",
+    width: 1138,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-placemat-02.jpg",
+    alt: "Purple horned monster placemat from the Don't Feed This Monster campaign",
+    width: 1600,
+    height: 1138,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-placemat-03.jpg",
+    alt: "Blue hooded monster placemat from the Don't Feed This Monster campaign",
+    width: 1600,
+    height: 1138,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-placemat-04.jpg",
+    alt: "Melting popsicle-headed monster placemat from the Don't Feed This Monster campaign",
+    width: 1600,
+    height: 1138,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-placemat-05.jpg",
+    alt: "Teal trash monster placemat from the Don't Feed This Monster campaign",
+    width: 1600,
+    height: 1138,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-placemat-06.jpg",
+    alt: "Green robot monster placemat from the Don't Feed This Monster campaign",
+    width: 1600,
+    height: 1138,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-placemat-07.jpg",
+    alt: "Pink crowned monster placemat from the Don't Feed This Monster campaign",
+    width: 1600,
+    height: 1138,
+    full: false,
+  },
+  {
+    src: "/images/work/dont-feed-this-monster/galeria-placemat-dino.jpg",
+    alt: "Full pink dinosaur monster placemat with the Omega Food logo",
+    width: 1600,
+    height: 1138,
+    full: true,
+  },
+];
+---
+
+<Layout
+  title="Don't Feed This Monster — Filipe Sales"
+  description="A campaign that turned food waste into a monster to fight — and cut plate waste 30% across Omega Food's corporate and hospital restaurants."
+>
+  <Nav base="/" />
+  <main id="main">
+    <article class="case">
+      <header class="container case__header">
+        <p class="case__crumb" data-reveal data-reveal-group="case-head">
+          <a href="/#work">Work</a> / Don't Feed This Monster
+        </p>
+        <p class="case__meta" data-reveal data-reveal-group="case-head" data-reveal-delay="60">
+          Campaign — 2019
+        </p>
+        <h1 class="case__title" data-reveal data-reveal-group="case-head" data-reveal-delay="120">
+          Don't feed<br />this monster
+        </h1>
+
+        <div class="case__intro">
+          <div class="case__intro-col" data-reveal data-reveal-group="case-head" data-reveal-delay="200">
+            <p class="case__tagline">— Brand campaign for Omega Food</p>
+            <ul class="case__tags">
+              {tags.map((tag) => (
+                <li>{tag}</li>
+              ))}
+            </ul>
+          </div>
+          <p
+            class="case__summary prose"
+            data-reveal
+            data-reveal-group="case-head"
+            data-reveal-delay="260"
+          >
+            A campaign that gave thousands of corporate and hospital employees a villain to
+            fight — turning food waste into a monster instead of a lecture.
+          </p>
+        </div>
+      </header>
+
+      <div class="container">
+        <figure class="case__hero" data-reveal data-reveal-group="case-media">
+          <img
+            src="/images/work/dont-feed-this-monster/hero.jpg"
+            alt="Collage of the full Don't Feed This Monster poster series, each in a different color with its own monster character"
+            loading="eager"
+            decoding="async"
+            width="2400"
+            height="1665"
+          />
+        </figure>
+      </div>
+
+      <div class="container case__sections">
+        {sections.map((section, i) => (
+          <div
+            class="case__section"
+            data-reveal
+            data-reveal-group="case-sections"
+            data-reveal-delay={i * 80}
+          >
+            <h2 class="case__section-heading">{section.heading}</h2>
+            <p class="prose case__section-body">{section.body}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="case__gallery">
+        {gallery.map((item) => (
+          <figure
+            class:list={["case__gallery-item", { "case__gallery-item--full": item.full }]}
+            data-reveal
+            data-reveal-group="case-gallery"
+          >
+            <img
+              src={item.src}
+              alt={item.alt}
+              loading="lazy"
+              decoding="async"
+              width={item.width}
+              height={item.height}
+            />
+          </figure>
+        ))}
+      </div>
+
+      <div class="container case__results" data-reveal data-reveal-group="case-results">
+        <h2 class="case__results-heading">Results</h2>
+        <p class="prose case__results-lead">
+          The right creative idea, applied consistently, can shift behavior at scale.
+        </p>
+        <div class="case__stats">
+          {stats.map((stat) => (
+            <div class="case__stat">
+              <span class="case__stat-value">{stat.value}</span>
+              <span class="case__stat-label">{stat.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <a class="case__next" href="/work/tale-of-fire-and-history/">
+        <div class="container case__next-inner">
+          <span class="case__next-label">Next project</span>
+          <span class="case__next-title">The Tale of Fire and History</span>
+          <span class="case__next-category">Film →</span>
+        </div>
+      </a>
+    </article>
+  </main>
+
+  <ContactFooter />
+</Layout>
+
+<style>
+  .case__header {
+    padding-block: var(--space-3xl) var(--space-2xl);
+  }
+
+  .case__crumb {
+    font-size: var(--text-label);
+    color: var(--color-muted);
+    margin-bottom: var(--space-md);
+  }
+
+  .case__crumb a {
+    transition: color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .case__crumb a:hover,
+  .case__crumb a:focus-visible {
+    color: var(--color-primary);
+  }
+
+  .case__meta {
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: var(--space-sm);
+  }
+
+  .case__title {
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    max-width: 20ch;
+  }
+
+  .case__intro {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xl);
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .case__intro-col {
+    flex: 1 1 260px;
+  }
+
+  .case__tagline {
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: var(--space-md);
+  }
+
+  .case__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .case__tags li {
+    padding: var(--space-2xs) var(--space-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-label);
+    color: var(--color-muted);
+  }
+
+  .case__summary {
+    flex: 1 1 320px;
+    color: var(--color-muted-strong);
+    font-size: var(--text-body-lg);
+    max-width: 48ch;
+  }
+
+  .case__hero {
+    position: relative;
+    margin: 0 0 var(--space-3xl);
+    border-radius: clamp(16px, 2.4vw, 28px);
+    overflow: hidden;
+  }
+
+  .case__hero img {
+    display: block;
+    width: 100%;
+    max-height: 80vh;
+    object-fit: cover;
+  }
+
+  .case__sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: var(--space-2xl) var(--space-2xl);
+    padding-bottom: var(--space-3xl);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .case__section-heading {
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: var(--space-md);
+  }
+
+  .case__section-body {
+    color: var(--color-muted-strong);
+    max-width: 52ch;
+  }
+
+  .case__gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    padding-block: var(--space-3xl);
+  }
+
+  .case__gallery-item {
+    margin: 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-ink);
+  }
+
+  .case__gallery-item--full {
+    grid-column: 1 / -1;
+  }
+
+  .case__gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .case__results {
+    padding-block: var(--space-2xl) var(--space-3xl);
+  }
+
+  .case__results-heading {
+    font-size: var(--text-headline);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    margin-bottom: var(--space-md);
+  }
+
+  .case__results-lead {
+    color: var(--color-muted-strong);
+    font-size: var(--text-body-lg);
+    max-width: 48ch;
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .case__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: var(--space-xl);
+    padding-top: var(--space-xl);
+  }
+
+  .case__stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .case__stat-value {
+    font-family: var(--font-display);
+    font-size: var(--text-headline);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .case__stat-label {
+    font-size: var(--text-label);
+    color: var(--color-muted);
+    max-width: 28ch;
+  }
+
+  .case__next {
+    display: block;
+    background: var(--color-primary);
+    transition: background var(--duration-base) var(--ease-out-quart);
+  }
+
+  .case__next:hover,
+  .case__next:focus-visible {
+    background: oklch(45% 0.09 150);
+  }
+
+  .case__next-inner {
+    padding-block: var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .case__next-label {
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: oklch(98% 0 0 / 75%);
+  }
+
+  .case__next-title {
+    font-family: var(--font-display);
+    font-size: var(--text-headline);
+    line-height: var(--leading-headline);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    color: oklch(98% 0 0);
+  }
+
+  .case__next-category {
+    font-size: var(--text-label);
+    color: oklch(98% 0 0 / 80%);
+  }
+
+  @media (max-width: 40rem) {
+    .case__gallery {
+      grid-template-columns: 1fr;
+    }
+
+    .case__gallery-item {
+      grid-column: auto;
+    }
+  }
+</style>
