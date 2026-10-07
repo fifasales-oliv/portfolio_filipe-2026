@@ -31,19 +31,18 @@
 
   .hero__frame {
     position: relative;
-    height: clamp(440px, 66vh, 720px);
+    /* Ratio chosen so the crop runs from just above "Creative Director" to just below the rug */
+    aspect-ratio: 1.87;
     border-radius: clamp(20px, 3vw, 32px);
     overflow: hidden;
     background: var(--color-surface);
   }
 
   .hero__image {
-    /* Extra height overflows the frame's bottom edge, cropping the floor below the rug */
-    --hero-floor-crop: 10%;
     width: 100%;
-    height: calc(100% + var(--hero-floor-crop));
+    height: 100%;
     object-fit: cover;
-    object-position: center bottom;
+    object-position: center 52%;
   }
 
   .hero__action {
@@ -96,7 +95,14 @@
 
   @media (max-width: 36rem) {
     .hero__frame {
+      aspect-ratio: auto;
       height: clamp(420px, 78vh, 640px);
+    }
+
+    /* Extra height overflows the frame's bottom edge, cropping the floor below the rug */
+    .hero__image {
+      height: 110%;
+      object-position: center bottom;
     }
   }
 </style>
