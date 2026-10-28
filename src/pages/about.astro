@@ -25,6 +25,17 @@ const additionalTraining = [
   "Técnicas de criatividade",
 ];
 
+// Add `logo` (path under /images/about/clients/) to swap a name for its image.
+const clients: { name: string; logo?: string }[] = [
+  { name: "Yunus", logo: "/images/about/clients/yunus.webp" },
+  { name: "Banco Original", logo: "/images/about/clients/banco-original.svg" },
+  { name: "Unimed", logo: "/images/about/clients/unimed.svg" },
+  { name: "Odontoclinic", logo: "/images/about/clients/odontoclinic.png" },
+  { name: "SsangYong", logo: "/images/about/clients/ssangyong.svg" },
+  { name: "Oba Hortifruti", logo: "/images/about/clients/oba-hortifruti.svg" },
+  { name: "Kowalski" },
+];
+
 const educationLogos = [
   { src: "/images/about/logos/brandster.png", alt: "Brandster logo", width: 200, height: 200 },
   { src: "/images/about/logos/the-ugly-lab.jpg", alt: "The Ugly Lab logo", width: 400, height: 400 },
@@ -115,6 +126,29 @@ const educationLogos = [
             </a>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="clients" aria-labelledby="clients-heading">
+      <div class="container">
+        <h2 class="clients__label" id="clients-heading" data-reveal data-reveal-group="clients">
+          Brands I’ve worked with
+        </h2>
+      </div>
+      <div class="clients__marquee" data-reveal data-reveal-group="clients" data-reveal-delay="100">
+        {[0, 1, 2, 3].map((copy) => (
+          <ul class="clients__track" aria-hidden={copy > 0 ? "true" : undefined}>
+            {clients.map((client) => (
+              <li class="clients__item">
+                {client.logo ? (
+                  <img src={client.logo} alt={copy === 0 ? `${client.name} logo` : ""} loading="lazy" decoding="async" />
+                ) : (
+                  <span class="clients__placeholder">{client.name}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        ))}
       </div>
     </section>
 
@@ -520,6 +554,89 @@ const educationLogos = [
     border-radius: var(--radius-full);
     font-size: var(--text-label);
     color: var(--color-muted-strong);
+  }
+
+  .clients {
+    padding-block: clamp(40px, 6vw, 72px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .clients__label {
+    font-family: var(--font-body);
+    font-size: var(--text-label);
+    font-weight: 500;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: var(--space-lg);
+  }
+
+  /* Identical tracks side by side; each slides its own width so the loop is seamless.
+     Four copies keep the strip full even when the client list is short. */
+  .clients__marquee {
+    display: flex;
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .clients__track {
+    display: flex;
+    align-items: center;
+    gap: clamp(40px, 5vw, 72px);
+    padding: 0 clamp(40px, 5vw, 72px) 0 0;
+    flex: none;
+    list-style: none;
+    margin: 0;
+    animation: clients-scroll 40s linear infinite;
+  }
+
+  .clients__marquee:hover .clients__track {
+    animation-play-state: paused;
+  }
+
+  .clients__item {
+    flex: none;
+    display: flex;
+    align-items: center;
+    height: 32px;
+  }
+
+  /* One-colour treatment: every mark rendered as a solid silhouette so mixed
+     sources (colour, white-on-dark, boxed) read as one family */
+  .clients__item img {
+    height: 100%;
+    width: auto;
+    max-width: 120px;
+    object-fit: contain;
+    filter: brightness(0);
+    opacity: 0.5;
+    transition: opacity var(--duration-base) var(--ease-out-quart);
+  }
+
+  .clients__item img:hover {
+    opacity: 0.9;
+  }
+
+  .clients__placeholder {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    color: var(--color-faint);
+  }
+
+  @keyframes clients-scroll {
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .clients__track {
+      animation: none;
+    }
   }
 
   .education__logos {

@@ -24,8 +24,8 @@ pnpm-debug.log*
 .idea/
 
 # raw source assets (kept locally, too large for GitHub; the site uses public/)
-films/
-images/
+/films/
+/images/
 *.psd
 
 # local tool state
