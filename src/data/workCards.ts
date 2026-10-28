@@ -1,3 +1,5 @@
+import { logos } from "./logos";
+
 export interface WorkCard {
   title: string;
   category: string;
@@ -7,6 +9,8 @@ export interface WorkCard {
   width: number;
   height: number;
   href: string;
+  /** Frames for a fast-cut reel that replaces the still image once the card scrolls into view. */
+  reel?: { src: string; color: string }[];
 }
 
 export const workCards: WorkCard[] = [
@@ -39,5 +43,6 @@ export const workCards: WorkCard[] = [
     width: 1600,
     height: 2000,
     href: "/work/logofolio/",
+    reel: logos.map(({ src, color }) => ({ src, color })),
   },
 ];

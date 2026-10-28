@@ -18,6 +18,13 @@ const { card } = Astro.props;
       width={card.width}
       height={card.height}
     />
+    {card.reel && (
+      <span class="card__reel" data-reel aria-hidden="true">
+        {card.reel.map((frame) => (
+          <span class="card__frame" style={`--c:${frame.color}`} data-src={frame.src}><i></i></span>
+        ))}
+      </span>
+    )}
   </span>
   <span class="card__body">
     <span class="card__category">{card.category}</span>
@@ -28,6 +35,46 @@ const { card } = Astro.props;
     </span>
   </span>
 </a>
+
+<script>
+  // Fast-cut reel: frames load only once the card nears the viewport, then the
+  // still image is covered and frames hard-cut while the card stays in view.
+  const FRAME_MS = 250;
+
+  document.querySelectorAll<HTMLElement>("[data-reel]").forEach((reel) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const frames = [...reel.querySelectorAll<HTMLElement>(".card__frame")];
+    let index = 0;
+    let timer: number | undefined;
+    let loaded = false;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!loaded) {
+            frames.forEach((frame) => {
+              frame.querySelector("i")!.style.backgroundImage = `url(${frame.dataset.src})`;
+            });
+            loaded = true;
+          }
+          reel.classList.add("is-playing");
+          window.clearInterval(timer);
+          timer =window.setInterval(() => {
+            frames[index].classList.remove("is-active");
+            index = (index + 1) % frames.length;
+            frames[index].classList.add("is-active");
+          }, FRAME_MS);
+          frames[index].classList.add("is-active");
+        } else {
+          window.clearInterval(timer);
+        }
+      },
+      { rootMargin: "200px 0px" },
+    );
+    observer.observe(reel);
+  });
+</script>
 
 <style>
   .card {
@@ -56,8 +103,51 @@ const { card } = Astro.props;
   }
 
   .card:hover .card__media img,
-  .card:focus-visible .card__media img {
+  .card:focus-visible .card__media img,
+  .card:hover .card__reel,
+  .card:focus-visible .card__reel {
     transform: scale(1.04);
+  }
+
+  .card__media {
+    position: relative;
+  }
+
+  .card__reel {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: transform var(--duration-slow) var(--ease-out-quart);
+  }
+
+  .card__reel.is-playing {
+    opacity: 1;
+  }
+
+  /* Hard cuts: frames swap visibility with no transition */
+  .card__frame {
+    position: absolute;
+    inset: 0;
+    background: var(--c);
+    visibility: hidden;
+  }
+
+  .card__frame.is-active {
+    visibility: visible;
+  }
+
+  /* Colour version of the mark = bottom-left 600×400 of each 1200×1200 logofolio card */
+  .card__frame i {
+    position: absolute;
+    left: -25%;
+    width: 150%;
+    top: 50%;
+    aspect-ratio: 3 / 2;
+    transform: translateY(-50%);
+    background-size: 200% auto;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    clip-path: inset(1.5% 0 0 0);
   }
 
   .card__category {

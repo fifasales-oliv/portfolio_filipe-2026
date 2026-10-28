@@ -1,0 +1,606 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import AboutContact from "../../components/AboutContact.astro";
+import { projects } from "../../data/projects";
+import { logos } from "../../data/logos";
+
+const project = projects.find((p) => p.slug === "logofolio")!;
+const next = projects[(projects.indexOf(project) + 1) % projects.length];
+---
+
+<Layout title={`${project.title} — Filipe Sales`} description={project.summary}>
+  <Nav base="/" />
+  <main id="main">
+    <article class="logofolio">
+      <header class="container lf__header">
+        <div>
+          <a class="lf__back" href="/#work">← Back to work</a>
+          <h1 class="lf__title" data-reveal data-reveal-group="lf-head">Logo<br />folio</h1>
+        </div>
+        <div>
+          <p class="lf__summary prose" data-reveal data-reveal-group="lf-head" data-reveal-delay="100">
+            {project.summary}
+          </p>
+          <div class="lf__stats" data-reveal data-reveal-group="lf-head" data-reveal-delay="200">
+            <div><b>100+</b><span>identities built</span></div>
+            <div><b>{logos.length}</b><span>selected here</span></div>
+          </div>
+        </div>
+      </header>
+
+      <div class="lf__marquee" aria-hidden="true">
+        <div class="lf__marquee-track">
+          {[...logos, ...logos].map((logo) => (
+            <div class="lf__sym" style={`background-image:url(${logo.src})`}></div>
+          ))}
+        </div>
+      </div>
+
+      <div class="container lf__wall">
+        {logos.map((logo, i) => (
+          <button
+            type="button"
+            class:list={["lf__tile", { "is-featured": logo.featured, "is-light": logo.light }]}
+            style={`--c:${logo.color}`}
+            data-index={i}
+            aria-label={`${logo.name} — ${logo.desc}`}
+            data-reveal
+            data-reveal-group="lf-wall"
+            data-reveal-delay={Math.min(i * 40, 400)}
+          >
+            <span class="lf__sym" style={`background-image:url(${logo.src})`}></span>
+            <span class="lf__color" style={`background-image:url(${logo.src})`}></span>
+            {logo.featured && (
+              <>
+                <span class="lf__lockup"><i style={`background-image:url(${logo.src})`}></i></span>
+                <span class="lf__tag">Featured</span>
+              </>
+            )}
+            <span class="lf__cap">
+              <b>{logo.name}</b>
+              <span>{logo.sector}</span>
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <div class="container lf__body">
+        <p class="prose lf__description" data-reveal>{project.description}</p>
+      </div>
+
+      <div class="container lf__next">
+        <a class="lf__next-link" href={`/work/${next.slug}/`}>
+          <span class="lf__next-label">Next project</span>
+          <span class="lf__next-title">{next.title}</span>
+        </a>
+      </div>
+    </article>
+
+    <AboutContact />
+  </main>
+
+  <div class="lf__lb" id="lf-lightbox" role="dialog" aria-modal="true" aria-labelledby="lf-lb-name" hidden>
+    <div class="lf__lb-stage"><img id="lf-lb-img" alt="" /></div>
+    <aside class="lf__lb-info">
+      <span class="lf__lb-idx" id="lf-lb-idx"></span>
+      <span class="lf__lb-sector" id="lf-lb-sector"></span>
+      <h2 id="lf-lb-name"></h2>
+      <p id="lf-lb-desc"></p>
+      <div class="lf__lb-nav">
+        <button type="button" data-step="-1">← Prev</button>
+        <button type="button" data-step="1">Next →</button>
+      </div>
+    </aside>
+    <button type="button" class="lf__lb-close" data-close>Close ✕</button>
+  </div>
+
+  <script is:inline define:vars={{ logos }}>
+    const lb = document.getElementById("lf-lightbox");
+    const img = document.getElementById("lf-lb-img");
+    let current = 0;
+    let opener = null;
+
+    function show(i) {
+      current = (i + logos.length) % logos.length;
+      const logo = logos[current];
+      lb.style.setProperty("--c", logo.color);
+      img.src = logo.src;
+      img.alt = `${logo.name} logo presentation`;
+      document.getElementById("lf-lb-name").textContent = logo.name;
+      document.getElementById("lf-lb-sector").textContent = logo.sector;
+      document.getElementById("lf-lb-desc").textContent = `${logo.desc}.`;
+      document.getElementById("lf-lb-idx").textContent =
+        `${String(current + 1).padStart(2, "0")} / ${String(logos.length).padStart(2, "0")}`;
+    }
+
+    function open(i, trigger) {
+      opener = trigger;
+      show(i);
+      lb.hidden = false;
+      requestAnimationFrame(() => lb.classList.add("is-open"));
+      document.documentElement.style.overflow = "hidden";
+      lb.querySelector("[data-close]").focus();
+    }
+
+    function close() {
+      lb.classList.remove("is-open");
+      document.documentElement.style.overflow = "";
+      setTimeout(() => (lb.hidden = true), 350);
+      opener?.focus();
+    }
+
+    document.querySelectorAll(".lf__tile").forEach((tile) =>
+      tile.addEventListener("click", () => open(Number(tile.dataset.index), tile)),
+    );
+    lb.querySelectorAll("[data-step]").forEach((b) =>
+      b.addEventListener("click", () => show(current + Number(b.dataset.step))),
+    );
+    lb.querySelector("[data-close]").addEventListener("click", close);
+    document.addEventListener("keydown", (e) => {
+      if (lb.hidden) return;
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowRight") show(current + 1);
+      if (e.key === "ArrowLeft") show(current - 1);
+    });
+  </script>
+</Layout>
+
+<style>
+  /* ---------- Header ---------- */
+  .lf__header {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: var(--space-xl);
+    align-items: end;
+    padding-block: var(--space-3xl) var(--space-2xl);
+  }
+
+  .lf__back {
+    display: inline-block;
+    color: var(--color-muted);
+    font-size: var(--text-label);
+    margin-bottom: var(--space-xl);
+    transition: color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .lf__back:hover,
+  .lf__back:focus-visible {
+    color: var(--color-ink);
+  }
+
+  .lf__title {
+    font-size: clamp(4rem, 2rem + 8vw, 9rem);
+    line-height: 0.85;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .lf__summary {
+    font-size: var(--text-body);
+    color: var(--color-muted);
+    max-width: 42ch;
+  }
+
+  .lf__stats {
+    display: flex;
+    gap: var(--space-xl);
+    margin-top: var(--space-lg);
+  }
+
+  .lf__stats b {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    line-height: 1;
+  }
+
+  .lf__stats span {
+    font-size: var(--text-label);
+    color: var(--color-muted);
+  }
+
+  /* ---------- Symbol crop (top 1200×800 of the card, centred square) ---------- */
+  .lf__sym {
+    background-size: 200% auto;
+    background-position: 50% 16.67%;
+    background-repeat: no-repeat;
+    filter: grayscale(1) contrast(1.15);
+    mix-blend-mode: multiply;
+    opacity: 0.8;
+  }
+
+  /* ---------- Marquee ---------- */
+  .lf__marquee {
+    overflow: hidden;
+    padding-block: var(--space-sm);
+    margin-bottom: var(--space-2xl);
+    border-block: 1px solid var(--color-border);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .lf__marquee-track {
+    display: flex;
+    gap: var(--space-2xl);
+    width: max-content;
+    background: var(--color-bg);
+    animation: lf-scroll 60s linear infinite;
+  }
+
+  .lf__marquee:hover .lf__marquee-track {
+    animation-play-state: paused;
+  }
+
+  .lf__marquee .lf__sym {
+    width: 96px;
+    height: 96px;
+    flex: none;
+  }
+
+  @keyframes lf-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* ---------- Wall ---------- */
+  .lf__wall {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-flow: dense;
+    gap: var(--space-xs);
+  }
+
+  .lf__tile {
+    position: relative;
+    aspect-ratio: 1;
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+    font: inherit;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    transition:
+      background var(--duration-base) var(--ease-out-quart),
+      border-color var(--duration-base) var(--ease-out-quart),
+      opacity var(--duration-slow) var(--ease-out-expo),
+      transform var(--duration-slow) var(--ease-out-expo);
+  }
+
+  .lf__tile .lf__sym {
+    position: absolute;
+    inset: 12%;
+    transition:
+      opacity 350ms var(--ease-out-quart),
+      transform var(--duration-base) var(--ease-out-quart);
+  }
+
+  /* colour version: bottom-left 600×400 of the card */
+  .lf__color {
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    aspect-ratio: 3 / 2;
+    background-size: 200% auto;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    clip-path: inset(1.5% 0 0 0);
+    opacity: 0;
+    transform: translateY(-50%) scale(0.92);
+    transition:
+      opacity 350ms var(--ease-out-quart),
+      transform var(--duration-base) var(--ease-out-quart);
+  }
+
+  .lf__cap {
+    position: absolute;
+    inset-inline: 14px;
+    bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: var(--space-2xs);
+    text-align: left;
+    font-size: 0.8125rem;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: all 350ms var(--ease-out-quart);
+  }
+
+  .lf__cap b {
+    font: 700 0.875rem/1 var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .lf__tile:not(.is-featured) .lf__cap span {
+    display: none;
+  }
+
+  .is-light .lf__cap {
+    color: var(--color-ink);
+  }
+
+  .lf__tile:hover,
+  .lf__tile:focus-visible {
+    background: var(--c);
+    border-color: var(--c);
+    outline: none;
+  }
+
+  .lf__tile:hover .lf__sym,
+  .lf__tile:focus-visible .lf__sym {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+
+  .lf__tile:hover .lf__color,
+  .lf__tile:focus-visible .lf__color {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+
+  .lf__tile:hover .lf__cap,
+  .lf__tile:focus-visible .lf__cap {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* featured: 2×2, colour by default, lockup on hover */
+  .lf__tile.is-featured {
+    grid-column: span 2;
+    grid-row: span 2;
+    background: var(--c);
+    border-color: var(--c);
+  }
+
+  .is-featured .lf__sym {
+    display: none;
+  }
+
+  .is-featured .lf__color {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+
+  .is-featured .lf__cap {
+    opacity: 1;
+    transform: none;
+    inset-inline: 20px;
+    bottom: 18px;
+  }
+
+  .is-featured .lf__cap b {
+    font-size: 1.5rem;
+  }
+
+  .lf__lockup {
+    position: absolute;
+    inset: 0;
+    background: #efeeec;
+    opacity: 0;
+    transition: opacity var(--duration-base) var(--ease-out-quart);
+  }
+
+  .lf__lockup i {
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    aspect-ratio: 3 / 2;
+    transform: translateY(-50%);
+    background-size: 200% auto;
+    background-position: 100% 100%;
+    background-repeat: no-repeat;
+  }
+
+  .lf__tag {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fff;
+    opacity: 0.75;
+  }
+
+  .is-light .lf__tag,
+  .is-featured:hover .lf__tag,
+  .is-featured:hover .lf__cap {
+    color: var(--color-ink);
+  }
+
+  .is-featured:hover .lf__lockup {
+    opacity: 1;
+  }
+
+  /* ---------- Body / next ---------- */
+  .lf__body {
+    padding-block: var(--space-3xl) var(--space-2xl);
+  }
+
+  .lf__description {
+    font-size: var(--text-body-lg);
+    color: var(--color-muted);
+  }
+
+  .lf__next {
+    border-top: 1px solid var(--color-border);
+    padding-block: var(--space-2xl);
+  }
+
+  .lf__next-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    transition: color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .lf__next-link:hover,
+  .lf__next-link:focus-visible {
+    color: var(--color-primary);
+  }
+
+  .lf__next-label {
+    font-size: var(--text-label);
+    color: var(--color-muted);
+  }
+
+  .lf__next-title {
+    font-family: var(--font-display);
+    font-size: var(--text-headline);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+  }
+
+  /* ---------- Lightbox ---------- */
+  .lf__lb {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-modal);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    background: var(--color-bg);
+    opacity: 0;
+    transition: opacity 350ms var(--ease-out-quart);
+  }
+
+  .lf__lb[hidden] {
+    display: none;
+  }
+
+  .lf__lb.is-open {
+    opacity: 1;
+  }
+
+  .lf__lb-stage {
+    display: grid;
+    place-items: center;
+    padding: var(--space-xl);
+    background: var(--c);
+    transition: background var(--duration-base) var(--ease-out-quart);
+  }
+
+  .lf__lb-stage img {
+    max-width: min(100%, 78vh);
+    max-height: 78vh;
+    border-radius: var(--radius-md);
+    box-shadow: 0 30px 80px -30px rgb(0 0 0 / 0.45);
+  }
+
+  .lf__lb-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding: var(--space-xl) var(--space-lg);
+    border-left: 1px solid var(--color-border);
+  }
+
+  .lf__lb-idx {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+
+  .lf__lb-sector {
+    font-size: 0.8125rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .lf__lb-info h2 {
+    font-size: 3.5rem;
+    line-height: 0.9;
+    text-transform: uppercase;
+  }
+
+  .lf__lb-info p {
+    color: var(--color-muted);
+  }
+
+  .lf__lb-nav {
+    margin-top: auto;
+    display: flex;
+    gap: var(--space-2xs);
+  }
+
+  .lf__lb-nav button,
+  .lf__lb-close {
+    font: 500 var(--text-label) var(--font-body);
+    color: var(--color-ink);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: border-color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .lf__lb-nav button:hover,
+  .lf__lb-close:hover {
+    border-color: var(--color-ink);
+  }
+
+  .lf__lb-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 60rem) {
+    .lf__header {
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+
+    .lf__wall {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .lf__lb {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr auto;
+      overflow: auto;
+    }
+
+    .lf__lb-info {
+      border-left: 0;
+      border-top: 1px solid var(--color-border);
+      padding: var(--space-md);
+    }
+
+    .lf__lb-info h2 {
+      font-size: 2.5rem;
+    }
+  }
+
+  @media (max-width: 37.5rem) {
+    .lf__wall {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-2xs);
+    }
+
+    .lf__tile:not(.is-featured) .lf__cap {
+      opacity: 1;
+      transform: none;
+      color: var(--color-muted);
+    }
+
+    .lf__tile:not(.is-featured):hover .lf__cap {
+      color: #fff;
+    }
+
+    .lf__tile.is-light:not(.is-featured):hover .lf__cap {
+      color: var(--color-ink);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lf__marquee-track {
+      animation: none;
+    }
+  }
+</style>
