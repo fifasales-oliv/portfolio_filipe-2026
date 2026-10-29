@@ -4,11 +4,11 @@ import Nav from "../../components/Nav.astro";
 import AboutContact from "../../components/AboutContact.astro";
 import { projects } from "../../data/projects";
 
-// "tale-of-fire-and-history", "dont-feed-this-monster" and "logofolio" have their own bespoke pages;
+// "cortex-summit", "tale-of-fire-and-history", "dont-feed-this-monster" and "logofolio" have their own bespoke pages;
 // they stay in the `projects` array only so the other case studies can still link to them
 // as their "next project", but they're excluded here to avoid duplicate routes.
 export function getStaticPaths() {
-  const bespokeSlugs = ["tale-of-fire-and-history", "dont-feed-this-monster", "logofolio"];
+  const bespokeSlugs = ["cortex-summit", "tale-of-fire-and-history", "dont-feed-this-monster", "logofolio"];
 
   return projects
     .filter((project) => !bespokeSlugs.includes(project.slug))

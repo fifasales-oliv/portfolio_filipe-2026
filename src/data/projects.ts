@@ -21,6 +21,20 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "cortex-summit",
+    title: "Cortex Summit",
+    client: "Cortex",
+    year: "2026",
+    category: "Brand identity",
+    summary:
+      "A new identity for Brazil's largest AI and go-to-market event — rebuilt from the Cortex brand and scaled from a wordmark to a 1,300-seat theatre.",
+    description:
+      "After Cortex's rebrand, I led the new identity for the third edition of Cortex Summit: a typographic lockup, the Cortex palette in new proportions, Bebas Neue headlines and an outlined “26” as the edition's signature — rolled out from social and speaker kits to credentials, signage, the Cortex stand and the theatre's LED screens.",
+    role: ["Creative direction", "Brand identity", "Event design system"],
+    image: "/images/work/cortex-summit-thumb.jpg",
+    imageAlt: "Cortex Summit coral symbol on a deep purple background",
+  },
+  {
     slug: "dont-feed-this-monster",
     title: "Don't Feed This Monster",
     client: "Omega Food",

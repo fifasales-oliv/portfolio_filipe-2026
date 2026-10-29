@@ -1,0 +1,778 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Nav from "../../components/Nav.astro";
+import ContactFooter from "../../components/ContactFooter.astro";
+
+const tags = ["Creative direction", "Brand identity", "Event design system"];
+
+const sections = [
+  {
+    heading: "The context",
+    body: "After two editions, Cortex Summit had become a landmark event for AI and go-to-market leaders in Brazil. But Cortex itself had just been rebranded, and the event no longer spoke the same visual language as the company behind it. The third edition, held at Teatro Santander in São Paulo, needed a new identity that kept the recognition the summit had earned while carrying the new Cortex brand forward.",
+  },
+  {
+    heading: "The challenge",
+    body: "Make the summit unmistakably Cortex without shrinking it into a corporate sub-brand. The audience — tech leaders, C-level executives and practitioners — sees a dozen event identities a year. And the system had to hold up at every scale, from a WhatsApp banner to a theatre-sized LED wall, produced by a small in-house team on a tight runway.",
+  },
+  {
+    heading: "The identity",
+    body: "I led the project from brief to rollout. We kept the Cortex palette but flipped its proportions: deep and vibrant purple became the stage, coral red was reserved for the symbol and the moments that matter, and mint stayed a quiet support. The logo became a typographic lockup, and the year moved out of it into an oversized outlined “26” that works as a graphic texture across every surface. Bebas Neue gave headlines the condensed, poster-like punch of an event. From there the system rolled out to the landing page, social, speaker kits, presentations, credentials, signage, the Cortex stand, merch and the theatre's LED screens.",
+  },
+];
+
+const palette = [
+  { name: "Deep Purple", hex: "#370947" },
+  { name: "Vibrant Purple", hex: "#741E91" },
+  { name: "Coral Red", hex: "#EB4756" },
+  { name: "Mint Teal", hex: "#71BDA3", light: true },
+  { name: "Warm Gray", hex: "#E7E5E3", light: true },
+];
+
+const stats = [
+  { value: "1,300", label: "Attendees at Teatro Santander, São Paulo" },
+  { value: "15+", label: "Speakers on stage" },
+  { value: "3rd", label: "Edition — the first under the new Cortex brand" },
+];
+
+const motion = [
+  {
+    src: "/videos/cortex-summit/logo-reveal.mp4",
+    poster: "/videos/cortex-summit/logo-reveal-poster.jpg",
+    label: "Logo reveal for the theatre foyer screens",
+    width: 1920,
+    height: 1080,
+    full: true,
+  },
+];
+
+const gallery = [
+  {
+    src: "/images/work/cortex-summit/badges.jpg",
+    alt: "Close-up of Cortex Summit attendee badges with gradient purple cards and QR codes",
+    width: 2400,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/cortex-summit/welcome-desk.jpg",
+    alt: "Attendees checking in at the purple Cortex Summit registration desk",
+    width: 2400,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/cortex-summit/entrance-totems.jpg",
+    alt: "Theatre entrance with purple totems carrying the Cortex Summit symbol, reflected on a wet floor",
+    width: 2400,
+    height: 1600,
+    full: true,
+  },
+  {
+    video: "/videos/cortex-summit/column-wrap.mp4",
+    poster: "/videos/cortex-summit/column-wrap-poster.jpg",
+    alt: "Kinetic type wrapping the entrance columns",
+    width: 2048,
+    height: 640,
+    full: true,
+  },
+  {
+    src: "/images/work/cortex-summit/entrance-ai.jpg",
+    alt: "Entrance LED totems showing Inteligência Aumentada above the registration area",
+    width: 2400,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/cortex-summit/corridor.jpg",
+    alt: "Corridor wall at the theatre with the Cortex Summit logo, an outlined 26 and the Organizações Aumentadas headline",
+    width: 2400,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/cortex-summit/stage-logo.jpg",
+    alt: "Host on stage in front of an LED wall showing the Cortex Summit logo and an outlined 26",
+    width: 2400,
+    height: 1600,
+    full: true,
+  },
+  {
+    src: "/images/work/cortex-summit/stage-lineup.jpg",
+    alt: "Main stage LED wall showing the morning program with the speaker lineup",
+    width: 2400,
+    height: 1600,
+    full: true,
+  },
+  {
+    src: "/images/work/cortex-summit/stage-passport.jpg",
+    alt: "Stage screen presenting the Passaporte activation as a camera operator films",
+    width: 2400,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/cortex-summit/stage-volvo.jpg",
+    alt: "Stage screen presenting the Volvo Experience prize with the host beside it",
+    width: 2400,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/cortex-summit/theatre-wide.jpg",
+    alt: "Audience in the dark theatre facing a stage with an outlined circular graphic and keynote data",
+    width: 2400,
+    height: 1600,
+    full: true,
+  },
+  {
+    src: "/images/work/cortex-summit/stage-panel.jpg",
+    alt: "Panel of five speakers seated on stage in front of the lineup LED wall",
+    width: 2400,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/cortex-summit/stage-speaker.jpg",
+    alt: "Speaker on stage holding a microphone in front of a mint and white LED backdrop",
+    width: 2400,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/cortex-summit/lanyards.jpg",
+    alt: "Pile of purple Cortex Summit lanyards printed with the event logo",
+    width: 1600,
+    height: 2400,
+    full: false,
+  },
+  {
+    src: "/images/work/cortex-summit/stage-wide.jpg",
+    alt: "Audience in the theatre facing a stage lit with the Cortex Summit logo",
+    width: 1600,
+    height: 2400,
+    full: false,
+  },
+  {
+    src: "/images/work/cortex-summit/stand.jpg",
+    alt: "Cortex stand with purple walls, neon edges and product screens",
+    width: 2400,
+    height: 1600,
+    full: true,
+  },
+  {
+    src: "/images/work/cortex-summit/stand-screen.jpg",
+    alt: "Visitor talking to a Cortex team member in front of a product demo screen at the stand",
+    width: 2400,
+    height: 1600,
+    full: false,
+  },
+  {
+    src: "/images/work/cortex-summit/stand-team.jpg",
+    alt: "Cortex team members showing a product screen to visitors at the stand",
+    width: 2400,
+    height: 1600,
+    full: false,
+  },
+];
+---
+
+<Layout
+  title="Cortex Summit — Filipe Sales"
+  description="A new identity for Cortex Summit, Brazil's largest AI and go-to-market event — rebuilt from the Cortex brand and scaled from a wordmark to a 1,300-seat theatre."
+>
+  <Nav base="/" />
+  <main id="main">
+    <article class="case">
+      <header class="container case__header">
+        <p class="case__crumb" data-reveal data-reveal-group="case-head">
+          <a href="/#work">Work</a> / Cortex Summit
+        </p>
+        <p class="case__meta" data-reveal data-reveal-group="case-head" data-reveal-delay="60">
+          Brand identity — 2026
+        </p>
+        <h1 class="case__title" data-reveal data-reveal-group="case-head" data-reveal-delay="120">
+          Cortex<br />Summit
+        </h1>
+
+        <div class="case__intro">
+          <div class="case__intro-col" data-reveal data-reveal-group="case-head" data-reveal-delay="200">
+            <p class="case__tagline">Event identity for Cortex</p>
+            <ul class="case__tags">
+              {tags.map((tag) => (
+                <li>{tag}</li>
+              ))}
+            </ul>
+          </div>
+          <p
+            class="case__summary prose"
+            data-reveal
+            data-reveal-group="case-head"
+            data-reveal-delay="260"
+          >
+            A new identity for Brazil's largest AI and go-to-market event — rebuilt from the
+            Cortex brand and scaled from a single wordmark to a 1,300-seat theatre.
+          </p>
+        </div>
+      </header>
+
+      <div class="container">
+        <figure class="case__hero" data-reveal data-reveal-group="case-media">
+          <img
+            src="/images/work/cortex-summit/key-visual.jpg"
+            alt="Cortex Summit key visual: the summit logo and an outlined 26 on a deep purple field, with the headline The largest AI and go-to-market event in Brazil"
+            loading="eager"
+            decoding="async"
+            width="1920"
+            height="1080"
+          />
+        </figure>
+      </div>
+
+      <div class="container case__sections">
+        {sections.map((section, i) => (
+          <div
+            class="case__section"
+            data-reveal
+            data-reveal-group="case-sections"
+            data-reveal-delay={i * 80}
+          >
+            <h2 class="case__section-heading">{section.heading}</h2>
+            <p class="prose case__section-body">{section.body}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="container case__system" data-reveal data-reveal-group="case-system">
+        <figure class="case__logo">
+          <img
+            src="/images/work/cortex-summit/logo-salmon-white.png"
+            alt="Cortex Summit logo: coral X symbol with the cortex summit wordmark in white"
+            loading="lazy"
+            decoding="async"
+            width="576"
+            height="238"
+          />
+        </figure>
+        <ul class="case__palette" aria-label="Cortex Summit color palette">
+          {palette.map((color) => (
+            <li
+              class:list={["case__swatch", { "case__swatch--light": color.light }]}
+              style={`background: ${color.hex}`}
+            >
+              <span>{color.name}</span>
+              <span class="case__swatch-hex">{color.hex}</span>
+            </li>
+          ))}
+        </ul>
+        <figure class="case__board">
+          <img
+            src="/images/work/cortex-summit/wallframe.jpg"
+            alt="Cortex Summit identity board: the logo, the coral symbol, an outlined network pattern and speaker photos framed by the brand's rounded shapes with the outlined 2026"
+            loading="lazy"
+            decoding="async"
+            width="2400"
+            height="1509"
+          />
+        </figure>
+        <p class="case__system-note">
+          Typographic lockup, Cortex palette in new proportions, Bebas Neue for headlines and an
+          outlined “26” as the edition's signature texture.
+        </p>
+      </div>
+
+      <section class="container case__film" aria-labelledby="case-film-heading">
+        <h2 id="case-film-heading" class="case__section-heading" data-reveal data-reveal-group="case-film">
+          Aftermovie
+        </h2>
+        <figure class="case__film-frame" data-reveal data-reveal-group="case-film">
+          <video
+            class="case__film-player"
+            src="/videos/cortex-summit/aftermovie.mp4"
+            poster="/videos/cortex-summit/aftermovie-poster.jpg"
+            width="1920"
+            height="1080"
+            controls
+            preload="none"
+            playsinline
+          >
+            <p>
+              Your browser doesn't support embedded video. You can
+              <a href="/videos/cortex-summit/aftermovie.mp4">download the aftermovie</a> instead.
+            </p>
+          </video>
+        </figure>
+      </section>
+
+      <section class="container case__motion" aria-labelledby="case-motion-heading">
+        <h2 id="case-motion-heading" class="case__section-heading" data-reveal data-reveal-group="case-motion">
+          In motion
+        </h2>
+        <div class="case__motion-grid">
+          {motion.map((clip) => (
+            <figure
+              class:list={["case__motion-item", { "case__motion-item--full": clip.full }]}
+              data-reveal
+              data-reveal-group="case-motion"
+            >
+              <video
+                class="case__loop"
+                src={clip.src}
+                poster={clip.poster}
+                width={clip.width}
+                height={clip.height}
+                aria-label={clip.label}
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+              ></video>
+              <figcaption class="case__motion-caption">{clip.label}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      <div class="case__gallery">
+        {gallery.map((item) => (
+          <figure
+            class:list={["case__gallery-item", { "case__gallery-item--full": item.full }]}
+            data-reveal
+            data-reveal-group="case-gallery"
+          >
+            {item.video ? (
+              <video
+                class="case__loop"
+                src={item.video}
+                poster={item.poster}
+                width={item.width}
+                height={item.height}
+                aria-label={item.alt}
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+              />
+            ) : (
+              <img
+                src={item.src}
+                alt={item.alt}
+                loading="lazy"
+                decoding="async"
+                width={item.width}
+                height={item.height}
+              />
+            )}
+          </figure>
+        ))}
+      </div>
+
+      <div class="container case__results" data-reveal data-reveal-group="case-results">
+        <h2 class="case__results-heading">Results</h2>
+        <p class="prose case__results-lead">
+          The team called the new identity the event's biggest leap forward — a foundation to
+          evolve in the next edition, not replace.
+        </p>
+        <div class="case__stats">
+          {stats.map((stat) => (
+            <div class="case__stat">
+              <span class="case__stat-value">{stat.value}</span>
+              <span class="case__stat-label">{stat.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <a class="case__next" href="/work/dont-feed-this-monster/">
+        <div class="container case__next-inner">
+          <span class="case__next-label">Next project</span>
+          <span class="case__next-title">Don't Feed This Monster</span>
+          <span class="case__next-category">Campaign →</span>
+        </div>
+      </a>
+    </article>
+  </main>
+
+  <ContactFooter />
+</Layout>
+
+<script>
+  // Decorative loops autoplay muted; with reduced motion they stay paused and get controls instead.
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.querySelectorAll<HTMLVideoElement>(".case__loop").forEach((video) => {
+      video.removeAttribute("autoplay");
+      video.pause();
+      video.controls = true;
+    });
+  }
+</script>
+
+<style>
+  .case__header {
+    padding-block: var(--space-3xl) var(--space-2xl);
+  }
+
+  .case__crumb {
+    font-size: var(--text-label);
+    color: var(--color-muted);
+    margin-bottom: var(--space-md);
+  }
+
+  .case__crumb a {
+    transition: color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .case__crumb a:hover,
+  .case__crumb a:focus-visible {
+    color: var(--color-primary);
+  }
+
+  .case__meta {
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: var(--space-sm);
+  }
+
+  .case__title {
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    max-width: 20ch;
+  }
+
+  .case__intro {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xl);
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .case__intro-col {
+    flex: 1 1 260px;
+  }
+
+  .case__tagline {
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: var(--space-md);
+  }
+
+  .case__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .case__tags li {
+    padding: var(--space-2xs) var(--space-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--text-label);
+    color: var(--color-muted);
+  }
+
+  .case__summary {
+    flex: 1 1 320px;
+    color: var(--color-muted-strong);
+    font-size: var(--text-body-lg);
+    max-width: 48ch;
+  }
+
+  .case__hero {
+    position: relative;
+    margin: 0 0 var(--space-3xl);
+    border-radius: clamp(16px, 2.4vw, 28px);
+    overflow: hidden;
+  }
+
+  /* The key visual carries type edge to edge, so it's shown uncropped */
+  .case__hero img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .case__sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: var(--space-2xl) var(--space-2xl);
+    padding-bottom: var(--space-3xl);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .case__section-heading {
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: var(--space-md);
+  }
+
+  .case__section-body {
+    color: var(--color-muted-strong);
+    max-width: 52ch;
+  }
+
+  .case__gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    padding-block: var(--space-3xl);
+  }
+
+  .case__gallery-item {
+    margin: 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-ink);
+  }
+
+  .case__gallery-item--full {
+    grid-column: 1 / -1;
+  }
+
+  .case__gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .case__results {
+    padding-block: var(--space-2xl) var(--space-3xl);
+  }
+
+  .case__results-heading {
+    font-size: var(--text-headline);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    margin-bottom: var(--space-md);
+  }
+
+  .case__results-lead {
+    color: var(--color-muted-strong);
+    font-size: var(--text-body-lg);
+    max-width: 48ch;
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .case__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: var(--space-xl);
+    padding-top: var(--space-xl);
+  }
+
+  .case__stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .case__stat-value {
+    font-family: var(--font-display);
+    font-size: var(--text-headline);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .case__stat-label {
+    font-size: var(--text-label);
+    color: var(--color-muted);
+    max-width: 28ch;
+  }
+
+  .case__next {
+    display: block;
+    background: var(--color-primary);
+    transition: background var(--duration-base) var(--ease-out-quart);
+  }
+
+  .case__next:hover,
+  .case__next:focus-visible {
+    background: oklch(45% 0.09 150);
+  }
+
+  .case__next-inner {
+    padding-block: var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .case__next-label {
+    font-size: var(--text-label);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: oklch(98% 0 0 / 75%);
+  }
+
+  .case__next-title {
+    font-family: var(--font-display);
+    font-size: var(--text-headline);
+    line-height: var(--leading-headline);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-display);
+    color: oklch(98% 0 0);
+  }
+
+  .case__next-category {
+    font-size: var(--text-label);
+    color: oklch(98% 0 0 / 80%);
+  }
+
+  .case__system {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: var(--space-md);
+    padding-top: var(--space-3xl);
+  }
+
+  .case__logo {
+    margin: 0;
+    display: grid;
+    place-items: center;
+    min-height: 320px;
+    padding: var(--space-2xl);
+    border-radius: var(--radius-md);
+    background: #370947;
+  }
+
+  .case__logo img {
+    width: min(100%, 420px);
+    height: auto;
+  }
+
+  .case__palette {
+    display: grid;
+    grid-template-rows: 2fr repeat(4, 1fr);
+    gap: var(--space-2xs);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .case__swatch {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    min-height: 56px;
+    font-size: var(--text-label);
+    color: oklch(98% 0 0);
+  }
+
+  .case__swatch--light {
+    color: var(--color-ink);
+  }
+
+  .case__swatch-hex {
+    font-variant-numeric: tabular-nums;
+    opacity: 0.8;
+  }
+
+  .case__board {
+    grid-column: 1 / -1;
+    margin: 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: #370947;
+  }
+
+  .case__board img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .case__system-note {
+    grid-column: 1 / -1;
+    font-size: var(--text-label);
+    color: var(--color-muted);
+    max-width: 60ch;
+  }
+
+  .case__motion {
+    padding-top: var(--space-2xl);
+  }
+
+  .case__motion-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+
+  .case__motion-item {
+    margin: 0;
+  }
+
+  .case__motion-item--full {
+    grid-column: 1 / -1;
+  }
+
+  .case__loop {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    background: #370947;
+  }
+
+  .case__film {
+    padding-top: var(--space-3xl);
+  }
+
+  .case__film-frame {
+    margin: 0;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: #370947;
+  }
+
+  .case__film-player {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    background: #370947;
+  }
+
+  .case__motion-caption {
+    margin-top: var(--space-xs);
+    font-size: var(--text-label);
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 40rem) {
+    .case__motion-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .case__system {
+      grid-template-columns: 1fr;
+    }
+
+    .case__gallery {
+      grid-template-columns: 1fr;
+    }
+
+    .case__gallery-item {
+      grid-column: auto;
+    }
+  }
+</style>

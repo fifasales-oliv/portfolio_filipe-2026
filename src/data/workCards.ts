@@ -15,6 +15,16 @@ export interface WorkCard {
 
 export const workCards: WorkCard[] = [
   {
+    title: "Cortex Summit",
+    category: "Brand identity",
+    image: "/images/work/cortex-summit-thumb.jpg",
+    imageAlt: "Cortex Summit coral symbol on a deep purple background",
+    aspect: "4 / 5",
+    width: 1600,
+    height: 2000,
+    href: "/work/cortex-summit/",
+  },
+  {
     title: "Don't Feed This Monster",
     category: "Campaign",
     image: "/images/work/dont-feed-this-monster-thumb.jpg",
