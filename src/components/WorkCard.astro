@@ -9,7 +9,7 @@ const { card } = Astro.props;
 ---
 
 <a class="card" href={card.href} data-reveal data-reveal-group="work">
-  <span class="card__media" style={`aspect-ratio:${card.aspect}`}>
+  <span class="card__media" data-card style={`aspect-ratio:${card.aspect}`}>
     <img
       src={card.image}
       alt={card.imageAlt}
@@ -102,12 +102,7 @@ const { card } = Astro.props;
     transition: transform var(--duration-slow) var(--ease-out-quart);
   }
 
-  .card:hover .card__media img,
-  .card:focus-visible .card__media img,
-  .card:hover .card__reel,
-  .card:focus-visible .card__reel {
-    transform: scale(1.04);
-  }
+  /* Card hover lives in global.css + src/scripts/card-hover.ts (data-card) */
 
   .card__media {
     position: relative;

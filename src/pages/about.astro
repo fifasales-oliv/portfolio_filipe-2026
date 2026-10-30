@@ -1,16 +1,24 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
-import ContactFooter from "../components/ContactFooter.astro";
+import FooterBento from "../components/FooterBento.astro";
 import { experience } from "../data/experience";
 import { education } from "../data/education";
 
+// Each highlight becomes a card: the first words carry the weight, the rest finishes the sentence.
 const highlights = [
-  "17+ years in brand design, strategy, and creative direction",
-  "Co-founded and scaled a creative agency",
-  "100+ brands created across Brazil, USA, Australia, Portugal, Mexico, and Colombia",
-  "Led rebranding and M&A brand integration at Cortex",
-  "Speaker and workshop facilitator on branding and creativity at universities, companies, and events — including HackTown 2025",
+  { lead: "19+ years", text: "in brand design, strategy, and creative direction" },
+  {
+    lead: "100+ brands",
+    text: "created across Brazil, USA, Australia, Portugal, Mexico, and Colombia",
+    accent: true,
+  },
+  { lead: "Co-founded", text: "and scaled a creative agency" },
+  { lead: "Led rebranding", text: "and M&A brand integration at Cortex" },
+  {
+    lead: "Speaker",
+    text: "and workshop facilitator on branding and creativity at universities, companies, and events — including HackTown 2025",
+  },
 ];
 
 const additionalTraining = [
@@ -25,17 +33,6 @@ const additionalTraining = [
   "Técnicas de criatividade",
 ];
 
-// Add `logo` (path under /images/about/clients/) to swap a name for its image.
-const clients: { name: string; logo?: string }[] = [
-  { name: "Yunus", logo: "/images/about/clients/yunus.webp" },
-  { name: "Banco Original", logo: "/images/about/clients/banco-original.svg" },
-  { name: "Unimed", logo: "/images/about/clients/unimed.svg" },
-  { name: "Odontoclinic", logo: "/images/about/clients/odontoclinic.png" },
-  { name: "SsangYong", logo: "/images/about/clients/ssangyong.svg" },
-  { name: "Oba Hortifruti", logo: "/images/about/clients/oba-hortifruti.svg" },
-  { name: "Kowalski" },
-];
-
 const educationLogos = [
   { src: "/images/about/logos/brandster.png", alt: "Brandster logo", width: 200, height: 200 },
   { src: "/images/about/logos/the-ugly-lab.jpg", alt: "The Ugly Lab logo", width: 400, height: 400 },
@@ -45,47 +42,30 @@ const educationLogos = [
 
 <Layout
   title="About — Filipe Sales"
-  description="Filipe Sales is a brand strategist and visual designer with 17+ years of experience in creative direction and brand strategy, based in Brazil."
+  description="Filipe Sales is a brand strategist and visual designer with 19+ years of experience in creative direction and brand strategy, based in Brazil."
 >
   <Nav base="/" />
-  <main id="main">
-    <section class="about-hero" id="top">
-      <div class="container">
-        <span class="about-hero__label" data-reveal data-reveal-group="about-hero">About</span>
-        <h1 class="about-hero__name">
-          <span data-reveal data-reveal-group="about-hero" data-reveal-delay="60">Filipe</span>
-          <span data-reveal data-reveal-group="about-hero" data-reveal-delay="140">Sales</span>
-        </h1>
-        <p class="about-hero__role" data-reveal data-reveal-group="about-hero" data-reveal-delay="220">
+  <main id="main" class="about">
+    <!-- Intro: who, what, now — beside the photo -->
+    <section class="container intro" id="top">
+      <div class="intro__text">
+        <h1 class="intro__name" data-reveal data-reveal-group="intro">Filipe Sales</h1>
+        <p class="intro__role" data-reveal data-reveal-group="intro" data-reveal-delay="60">
           Brand Strategist &amp; Visual Designer
         </p>
-        <span
-          class="about-hero__location"
-          data-reveal
-          data-reveal-group="about-hero"
-          data-reveal-delay="280"
-        >
-          Based in Brazil
-        </span>
-      </div>
-    </section>
+        <p class="intro__status" data-reveal data-reveal-group="intro" data-reveal-delay="120">
+          <span>Currently at</span>
+          <span class="chip">
+            <img src="/images/home/cortex-mark.png" alt="" width="20" height="20" />
+            Cortex
+          </span>
+          <span class="intro__based">Based in Brazil</span>
+        </p>
 
-    <section class="bio">
-      <div class="container bio__inner">
-        <figure class="bio__photo" data-reveal data-reveal-group="bio">
-          <img
-            src="/images/about/filipe-about.jpg"
-            alt="Filipe Sales sitting on a chair in a studio, in front of a wall covered in hand-drawn doodles"
-            loading="lazy"
-            decoding="async"
-            width="1600"
-            height="1110"
-          />
-        </figure>
-        <div class="bio__content" data-reveal data-reveal-group="bio" data-reveal-delay="120">
-          <p class="bio__lede">I design brands that earn their place in the boardroom.</p>
+        <div class="intro__bio" data-reveal data-reveal-group="intro" data-reveal-delay="180">
+          <p class="intro__lede">I design brands that earn their place in the boardroom.</p>
           <p class="prose">
-            I'm a brand strategist and visual designer with 17+ years working at the
+            I'm a brand strategist and visual designer with 19+ years working at the
             intersection of creative direction, brand strategy, and business impact. My
             career started in agencies and evolved through co-founding one — building it
             from zero to an awarded advertising agency and leading creative work for
@@ -103,574 +83,589 @@ const educationLogos = [
             work I've done has always started with a strategic problem and ended with
             something people remember.
           </p>
+        </div>
 
-          <div class="bio__highlights">
-            <h2 class="bio__highlights-heading" data-reveal data-reveal-group="highlights">
-              Career highlights
-            </h2>
-            <ul class="bio__highlights-list">
-              {highlights.map((text, i) => (
-                <li data-reveal data-reveal-group="highlights-list" data-reveal-delay={i * 70}>
-                  {text}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div class="bio__actions">
-            <a class="bio__action" href="mailto:oi@filipesales.com.br">
-              Let's talk <span class="bio__action-arrow">→</span>
-            </a>
-            <a class="bio__action" href="/#work">
-              See work <span class="bio__action-arrow">→</span>
-            </a>
-          </div>
+        <div class="intro__actions" data-reveal data-reveal-group="intro" data-reveal-delay="240">
+          <a class="intro__action" href="mailto:oi@filipesales.com.br">
+            Let's talk <span aria-hidden="true">→</span>
+          </a>
+          <a class="intro__action" href="/#work">
+            See work <span aria-hidden="true">→</span>
+          </a>
         </div>
       </div>
+
+      <figure data-card class="tile intro__photo" data-reveal data-reveal-group="intro" data-reveal-delay="100">
+        <img
+          src="/images/about/filipe-about-flags.jpg"
+          alt="Filipe Sales mid-kick on a salt flat, surrounded by flags from around the world"
+          loading="eager"
+          decoding="async"
+          width="1206"
+          height="1445"
+        />
+      </figure>
     </section>
 
-    <section class="clients" aria-labelledby="clients-heading">
-      <div class="container">
-        <h2 class="clients__label" id="clients-heading" data-reveal data-reveal-group="clients">
-          Brands I’ve worked with
-        </h2>
-      </div>
-      <div class="clients__marquee" data-reveal data-reveal-group="clients" data-reveal-delay="100">
-        {[0, 1, 2, 3].map((copy) => (
-          <ul class="clients__track" aria-hidden={copy > 0 ? "true" : undefined}>
-            {clients.map((client) => (
-              <li class="clients__item">
-                {client.logo ? (
-                  <img src={client.logo} alt={copy === 0 ? `${client.name} logo` : ""} loading="lazy" decoding="async" />
-                ) : (
-                  <span class="clients__placeholder">{client.name}</span>
-                )}
+    <!-- Career highlights: one card each -->
+    <section class="container block" aria-labelledby="highlights-heading">
+      <h2 class="block__heading" id="highlights-heading" data-reveal data-reveal-group="highlights">
+        Career highlights
+      </h2>
+      <ul class="highlights">
+        {highlights.map((item, i) => (
+          <li
+            data-card
+            class:list={["tile", "highlight", { "highlight--accent": item.accent }]}
+            data-reveal
+            data-reveal-group="highlights-list"
+            data-reveal-delay={i * 70}
+          >
+            <strong class="highlight__lead">{item.lead}</strong>
+            <span class="highlight__text">{item.text}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Work experience: a line follows the page down the list as you scroll -->
+    <section class="container block" aria-labelledby="experience-heading">
+      <article data-card class="tile card" data-reveal data-reveal-group="experience">
+        <h2 class="card__heading" id="experience-heading">Work experience</h2>
+        <div class="timeline" data-timeline>
+          <span class="timeline__rail" aria-hidden="true">
+            <span class="timeline__fill" data-timeline-fill></span>
+            <span class="timeline__dot" data-timeline-dot></span>
+          </span>
+          <ol class="timeline__list">
+            {experience.map((job, i) => (
+              <li class:list={["timeline__item", { "is-active": i === 0 }]} data-timeline-item>
+                <span class="timeline__years">{job.years}</span>
+                <span class="timeline__job">
+                  <span class="timeline__role">{job.role}</span>
+                  <span class="timeline__company">{job.company}</span>
+                </span>
               </li>
             ))}
-          </ul>
-        ))}
-      </div>
+          </ol>
+        </div>
+      </article>
     </section>
 
-    <section class="experience">
-      <div class="container experience__inner">
-        <h2 class="experience__heading" data-reveal data-reveal-group="experience">
-          Work<br />experience
-        </h2>
-        <ul class="experience__list">
-          {experience.map((job, i) => (
-            <li
-              class="experience__item"
-              data-reveal
-              data-reveal-group="experience-list"
-              data-reveal-delay={Math.min(i * 50, 400)}
-            >
-              <span class="experience__index">{String(i + 1).padStart(2, "0")}</span>
-              <span class="experience__title">
-                <span class="experience__role">{job.role}</span>
-                <span class="experience__meta">
-                  {job.company} · {job.years}
-                </span>
-              </span>
+    <!-- Education + additional training, side by side -->
+    <section class="container block block--pair" aria-label="Education and training">
+      <article data-card class="tile card" data-reveal data-reveal-group="learning">
+        <h2 class="card__heading">Education</h2>
+        <ul class="degrees">
+          {education.map((item) => (
+            <li class="degrees__item">
+              <span class="degrees__name">{item.degree}</span>
+              <span class="degrees__meta">{item.institution} · {item.years}</span>
             </li>
           ))}
         </ul>
-      </div>
-    </section>
+      </article>
 
-    <section class="education education--last">
-      <div class="container education__inner">
-        <h2 class="education__heading" data-reveal data-reveal-group="education">Education</h2>
-        <div class="education__col">
-          <ul class="education__list">
-            {education.map((item, i) => (
-              <li
-                class="education__item"
-                data-reveal
-                data-reveal-group="education-list"
-                data-reveal-delay={i * 90}
-              >
-                <span class="education__degree">{item.degree}</span>
-                <span class="education__meta">
-                  {item.institution} · {item.years}
-                </span>
-              </li>
-            ))}
-          </ul>
-
-          <div class="education__extra">
-            <h3
-              class="education__extra-heading"
-              data-reveal
-              data-reveal-group="additional-training"
-            >
-              Additional training
-            </h3>
-            <ul class="education__tags">
-              {additionalTraining.map((item, i) => (
-                <li
-                  data-reveal
-                  data-reveal-group="additional-training-tags"
-                  data-reveal-delay={Math.min(i * 40, 320)}
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-
-            <ul
-              class="education__logos"
-              data-reveal
-              data-reveal-group="additional-training"
-              data-reveal-delay="120"
-            >
-              {educationLogos.map((logo) => (
-                <li class="education__logo">
-                  <img
-                    src={logo.src}
-                    alt={logo.alt}
-                    loading="lazy"
-                    decoding="async"
-                    width={logo.width}
-                    height={logo.height}
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
+      <article data-card class="tile card" data-reveal data-reveal-group="learning" data-reveal-delay="90">
+        <h2 class="card__heading">Additional training</h2>
+        <ul class="training__tags">
+          {additionalTraining.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+        <ul class="training__schools" aria-label="Schools">
+          {educationLogos.map((logo) => (
+            <li class="training__school">
+              <img
+                src={logo.src}
+                alt={logo.alt}
+                loading="lazy"
+                decoding="async"
+                width={logo.width}
+                height={logo.height}
+              />
+            </li>
+          ))}
+        </ul>
+      </article>
     </section>
   </main>
 
-  <ContactFooter />
+  <FooterBento />
 </Layout>
 
+<script>
+  // Work experience: the green line follows the page — it runs down to wherever the middle of
+  // the screen sits in the list and lights the role there. Before the list, it rests on the
+  // current role; past the end, it fills completely.
+  const timeline = document.querySelector<HTMLElement>("[data-timeline]");
+
+  if (timeline) {
+    const fill = timeline.querySelector<HTMLElement>("[data-timeline-fill]")!;
+    const dot = timeline.querySelector<HTMLElement>("[data-timeline-dot]")!;
+    const items = [...timeline.querySelectorAll<HTMLElement>("[data-timeline-item]")];
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const height = timeline.offsetHeight;
+      const first = items[0];
+      const restY = first.offsetTop + first.offsetHeight / 2;
+      const probe = window.innerHeight * 0.55 - timeline.getBoundingClientRect().top;
+      const y = Math.max(restY, Math.min(height, probe));
+
+      // Transform-only: the fill scales from the top, the dot slides to the same point
+      fill.style.transform = `scaleY(${y / height})`;
+      dot.style.transform = `translate(-50%, calc(${y}px - 50%))`;
+
+      const under =
+        items.find((item) => y >= item.offsetTop && y < item.offsetTop + item.offsetHeight) ??
+        items[items.length - 1];
+      items.forEach((item) => item.classList.toggle("is-active", item === under));
+    };
+
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    update();
+  }
+</script>
+
 <style>
-  .about-hero {
-    padding-block: clamp(60px, 9vw, 110px) clamp(48px, 6vw, 80px);
-    border-bottom: 1px solid var(--color-border);
+  /* Same tile language as the home board */
+  .about {
+    --gap: clamp(0.75rem, 0.4rem + 1.2vw, 1.5rem);
+    --tile-radius: clamp(20px, 2.2vw, 32px);
+    --tile-bg: oklch(99% 0.004 92);
   }
 
-  .about-hero__label {
-    display: block;
-    font-size: var(--text-label);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-    color: var(--color-muted);
+  .tile {
+    border-radius: var(--tile-radius);
+    background: var(--tile-bg);
+    box-shadow:
+      0 0 0 1px oklch(0% 0 0 / 4%),
+      0 1px 2px oklch(0% 0 0 / 4%);
   }
 
-  .about-hero__name {
-    margin-top: clamp(48px, 9vw, 110px);
-    font-size: clamp(3rem, 9vw, 7.5rem);
-    line-height: 0.9;
-    letter-spacing: var(--tracking-display);
-    text-transform: uppercase;
+  /* ---------- Intro ---------- */
+  .intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xl);
+    padding-block: clamp(32px, 4vw, 56px) var(--space-3xl);
   }
 
-  .about-hero__name span {
-    display: block;
+  @media (min-width: 56rem) {
+    .intro {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      align-items: start;
+      gap: clamp(2rem, 1rem + 4vw, 5rem);
+    }
+
+    /* The photo stays in view while the bio scrolls past */
+    .intro__photo {
+      position: sticky;
+      top: 6rem;
+    }
   }
 
-  .about-hero__role {
-    margin-top: clamp(20px, 3vw, 32px);
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(1.25rem, 1rem + 1.2vw, 1.75rem);
-    letter-spacing: var(--tracking-display);
-    color: var(--color-ink);
+  .intro__name {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: clamp(2.75rem, 1.5rem + 3.6vw, 4.75rem);
+    line-height: 1;
+    letter-spacing: -0.035em;
   }
 
-  .about-hero__location {
-    display: block;
+  .intro__role {
     margin-top: var(--space-sm);
-    font-size: var(--text-label);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-    color: var(--color-muted);
+    font-size: clamp(1.15rem, 1rem + 0.5vw, 1.4rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-ink-soft);
   }
 
-  .bio {
-    padding-block: clamp(60px, 9vw, 110px);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .bio__inner {
+  .intro__status {
     display: flex;
     flex-wrap: wrap;
-    gap: clamp(40px, 6vw, 80px);
+    align-items: center;
+    gap: var(--space-xs);
+    margin-top: var(--space-md);
+    font-size: 1rem;
+    color: var(--color-ink-soft);
   }
 
-  .bio__photo {
-    flex: 1 1 280px;
-    max-width: 380px;
-    margin: 0;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background: var(--color-surface);
-  }
-
-  .bio__photo img {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-  }
-
-  .bio__content {
-    flex: 2 1 420px;
-    min-width: 280px;
-  }
-
-  .bio__lede {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
-    line-height: 1.15;
-    letter-spacing: var(--tracking-display);
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 1rem 0.3rem 0.5rem;
+    border-radius: var(--radius-full);
+    background: var(--tile-bg);
+    font-weight: 600;
+    font-size: 0.9375rem;
     color: var(--color-ink);
-    max-width: 20ch;
-    margin-bottom: var(--space-xl);
+    box-shadow:
+      0 1px 3px oklch(0% 0 0 / 10%),
+      0 1px 2px -1px oklch(0% 0 0 / 10%);
+    transform: rotate(2deg);
   }
 
-  .bio__content p.prose {
-    color: var(--color-muted-strong);
-    font-size: var(--text-body-lg);
-    max-width: 56ch;
-    margin-bottom: var(--space-md);
+  .chip img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
   }
 
-  .bio__content p.prose:last-of-type {
-    margin-bottom: 0;
+  .intro__based {
+    margin-left: var(--space-xs);
+    color: var(--color-muted);
   }
 
-  .bio__highlights {
+  .intro__bio {
     margin-top: var(--space-xl);
-    padding-top: var(--space-xl);
-    border-top: 1px solid var(--color-border);
-  }
-
-  .bio__highlights-heading {
-    font-size: var(--text-title);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-display);
-    margin-bottom: var(--space-lg);
-  }
-
-  .bio__highlights-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .bio__highlights-list li {
-    position: relative;
-    padding-left: var(--space-lg);
-    color: var(--color-muted-strong);
     max-width: 62ch;
   }
 
-  .bio__highlights-list li::before {
-    content: "→";
-    position: absolute;
-    left: 0;
-    color: var(--color-primary);
+  .intro__lede {
+    font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-md);
+    text-wrap: balance;
   }
 
-  .bio__actions {
+  .intro__bio .prose {
+    color: var(--color-muted-strong);
+    margin-bottom: var(--space-sm);
+    text-wrap: pretty;
+  }
+
+  .intro__actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-lg);
-    margin-top: var(--space-xl);
+    margin-top: var(--space-lg);
   }
 
-  .bio__action {
+  .intro__action {
     display: inline-flex;
-    align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
     font-weight: 600;
-    color: var(--color-ink);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid currentColor;
     padding-bottom: 2px;
     transition:
-      gap var(--duration-fast) var(--ease-out-quart),
       color var(--duration-fast) var(--ease-out-quart),
-      border-color var(--duration-fast) var(--ease-out-quart);
+      gap var(--duration-fast) var(--ease-out-quart);
   }
 
-  .bio__action:hover,
-  .bio__action:focus-visible {
-    gap: 12px;
+  .intro__action:hover,
+  .intro__action:focus-visible {
     color: var(--color-primary);
-    border-color: var(--color-primary);
+    gap: 0.75rem;
   }
 
-  .experience {
-    padding-block: clamp(60px, 9vw, 110px);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .experience__inner {
-    display: flex;
-    flex-wrap: wrap;
-    gap: clamp(32px, 6vw, 64px);
-  }
-
-  .experience__heading {
-    flex: 1 1 240px;
-    font-size: clamp(2.4rem, 5vw, 4.2rem);
-    line-height: 0.92;
-    letter-spacing: var(--tracking-display);
-    text-transform: uppercase;
-  }
-
-  .experience__list {
-    flex: 2 1 480px;
-    min-width: 280px;
-    list-style: none;
+  .intro__photo {
     margin: 0;
-    padding: 0;
-    border-top: 1px solid var(--color-border);
+    overflow: hidden;
   }
 
-  .experience__item {
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-lg);
-    padding-block: var(--space-md);
-    border-bottom: 1px solid var(--color-border);
+  .intro__photo img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 70%;
   }
 
-  .experience__index {
-    font-size: var(--text-label);
-    color: var(--color-faint);
-    flex-shrink: 0;
+  /* ---------- Blocks ---------- */
+  .block {
+    padding-bottom: var(--gap);
   }
 
-  .experience__title {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: var(--space-2xs) var(--space-sm);
-    flex: 1;
-  }
-
-  .experience__role {
-    font-family: var(--font-display);
+  .block__heading,
+  .card__heading {
+    font-family: var(--font-body);
     font-weight: 700;
-    font-size: clamp(1rem, 1.6vw, 1.25rem);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-display);
+    font-size: clamp(1.5rem, 1.2rem + 0.9vw, 2rem);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
   }
 
-  .experience__meta {
-    font-size: var(--text-label);
-    color: var(--color-muted);
-  }
-
-  .education {
-    padding-block: clamp(60px, 9vw, 110px);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .education--last {
-    border-bottom: none;
-  }
-
-  .education__inner {
-    display: flex;
-    flex-wrap: wrap;
-    gap: clamp(32px, 6vw, 64px);
-  }
-
-  .education__heading {
-    flex: 1 1 240px;
-    font-size: clamp(2.4rem, 5vw, 4.2rem);
-    line-height: 0.92;
-    letter-spacing: var(--tracking-display);
-    text-transform: uppercase;
-  }
-
-  .education__col {
-    flex: 2 1 480px;
-    min-width: 280px;
-  }
-
-  .education__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .education__item {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding-block: var(--space-md);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .education__degree {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(1rem, 1.6vw, 1.25rem);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-display);
-  }
-
-  .education__meta {
-    font-size: var(--text-label);
-    color: var(--color-muted);
-  }
-
-  .education__extra {
-    margin-top: var(--space-xl);
-  }
-
-  .education__extra-heading {
-    font-size: var(--text-label);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-    color: var(--color-muted);
+  .block__heading {
     margin-bottom: var(--space-md);
   }
 
-  .education__tags {
+  .card {
+    padding: clamp(1.5rem, 1rem + 1.6vw, 2.5rem);
+  }
+
+  .card__heading {
+    margin-bottom: var(--space-lg);
+  }
+
+  .block--pair {
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 56rem) {
+    .block--pair {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+
+  /* ---------- Highlights ---------- */
+  .highlights {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 40rem) {
+    .highlights {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Desktop: first row pairs a single card with the wide accent card, second row is three across */
+  @media (min-width: 62rem) {
+    .highlights {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .highlight--accent {
+      grid-column: span 2;
+    }
+  }
+
+  .highlight {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-xl);
+    min-height: 13rem;
+    padding: clamp(1.25rem, 1rem + 1vw, 2rem);
+  }
+
+  .highlight__lead {
+    font-size: clamp(2rem, 1.4rem + 1.8vw, 3rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-ink);
+  }
+
+  .highlight__text {
+    max-width: 34ch;
+    font-size: 1rem;
+    line-height: 1.45;
+    color: var(--color-muted-strong);
+  }
+
+  /* One card carries the brand colour, the way the home board leans on its purple tile */
+  .highlight--accent {
+    background: var(--color-primary);
+    box-shadow: none;
+  }
+
+  .highlight--accent .highlight__lead {
+    color: var(--color-on-primary);
+    font-size: clamp(2.5rem, 1.6rem + 2.8vw, 4.25rem);
+  }
+
+  .highlight--accent .highlight__text {
+    color: oklch(98% 0 0 / 88%);
+    max-width: 40ch;
+  }
+
+  /* ---------- Work experience timeline ---------- */
+  .timeline {
+    position: relative;
+    padding-left: var(--space-lg);
+  }
+
+  .timeline__rail {
+    position: absolute;
+    left: 0.35rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    border-radius: 2px;
+    background: oklch(88% 0.008 86);
+  }
+
+  .timeline__fill {
+    position: absolute;
+    inset: 0;
+    border-radius: 2px;
+    background: var(--color-primary);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 120ms linear;
+  }
+
+  /* The dot rides the end of the line */
+  .timeline__dot {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background: var(--color-primary);
+    box-shadow: 0 0 0 4px var(--tile-bg);
+    transform: translate(-50%, -50%);
+    transition: transform 120ms linear;
+  }
+
+  .timeline__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .timeline__item {
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr);
+    gap: var(--space-md);
+    padding-block: var(--space-sm);
+    opacity: 0.45;
+    transition: opacity var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .timeline__item.is-active {
+    opacity: 1;
+  }
+
+  .timeline__years {
+    padding-top: 0.2rem;
+    font-size: var(--text-label);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+  }
+
+  .timeline__job {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .timeline__role {
+    font-size: clamp(1.1rem, 1rem + 0.4vw, 1.35rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    transition: color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .timeline__item.is-active .timeline__role {
+    color: var(--color-primary);
+  }
+
+  .timeline__company {
+    font-size: 0.9375rem;
+    color: var(--color-muted-strong);
+  }
+
+  /* ---------- Education + training ---------- */
+  .degrees {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .degrees__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .degrees__name {
+    font-size: clamp(1.1rem, 1rem + 0.4vw, 1.35rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+  }
+
+  .degrees__meta {
+    font-size: 0.9375rem;
+    color: var(--color-muted-strong);
+  }
+
+  .training__tags {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-sm);
+    gap: var(--space-2xs);
     list-style: none;
     margin: 0 0 var(--space-lg);
     padding: 0;
   }
 
-  .education__tags li {
-    padding: var(--space-2xs) var(--space-sm);
-    border: 1px solid var(--color-border);
+  .training__tags li {
+    padding: 0.35rem 0.85rem;
     border-radius: var(--radius-full);
+    background: var(--color-bg);
     font-size: var(--text-label);
-    color: var(--color-muted-strong);
+    color: var(--color-ink-soft);
   }
 
-  .clients {
-    padding-block: clamp(40px, 6vw, 72px);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .clients__label {
-    font-family: var(--font-body);
-    font-size: var(--text-label);
-    font-weight: 500;
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-    color: var(--color-muted);
-    margin-bottom: var(--space-lg);
-  }
-
-  /* Identical tracks side by side; each slides its own width so the loop is seamless.
-     Four copies keep the strip full even when the client list is short. */
-  .clients__marquee {
-    display: flex;
-    overflow: hidden;
-    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  }
-
-  .clients__track {
-    display: flex;
-    align-items: center;
-    gap: clamp(40px, 5vw, 72px);
-    padding: 0 clamp(40px, 5vw, 72px) 0 0;
-    flex: none;
-    list-style: none;
-    margin: 0;
-    animation: clients-scroll 40s linear infinite;
-  }
-
-  .clients__marquee:hover .clients__track {
-    animation-play-state: paused;
-  }
-
-  .clients__item {
-    flex: none;
-    display: flex;
-    align-items: center;
-    height: 32px;
-  }
-
-  /* One-colour treatment: every mark rendered as a solid silhouette so mixed
-     sources (colour, white-on-dark, boxed) read as one family */
-  .clients__item img {
-    height: 100%;
-    width: auto;
-    max-width: 120px;
-    object-fit: contain;
-    filter: brightness(0);
-    opacity: 0.5;
-    transition: opacity var(--duration-base) var(--ease-out-quart);
-  }
-
-  .clients__item img:hover {
-    opacity: 0.9;
-  }
-
-  .clients__placeholder {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.125rem;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    white-space: nowrap;
-    color: var(--color-faint);
-  }
-
-  @keyframes clients-scroll {
-    to {
-      transform: translateX(-100%);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .clients__track {
-      animation: none;
-    }
-  }
-
-  .education__logos {
+  .training__schools {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: var(--space-sm);
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
-  .education__logo {
+  .training__school {
     display: flex;
     align-items: center;
-    justify-content: center;
     height: 44px;
   }
 
-  .education__logo img {
+  .training__school img {
     height: 100%;
     width: auto;
-    max-width: 100%;
     object-fit: contain;
   }
 
-  @media (max-width: 40rem) {
-    .experience__item {
-      flex-direction: column;
-      gap: var(--space-2xs);
+  @media (max-width: 36rem) {
+    .highlight {
+      min-height: 0;
+      gap: var(--space-md);
     }
 
-    .experience__title {
-      flex-direction: column;
-      gap: 2px;
+    .timeline__item {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.25rem;
+    }
+
+    .timeline__years {
+      order: 2;
+      padding-top: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .timeline__fill,
+    .timeline__dot,
+    .timeline__item,
+    .timeline__role {
+      transition: none;
     }
   }
 </style>

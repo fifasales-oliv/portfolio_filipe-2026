@@ -1,0 +1,1320 @@
+---
+// Experimental hero: a bento board with the intro in the middle and the work around it.
+// Lives beside Hero.astro and is only mounted on /hero-test/ — the live hero is untouched.
+import { logos } from "../data/logos";
+import { clients } from "../data/clients";
+
+
+const lines = [
+  ["Hi,", "I'm", "Filipe."],
+  ["I", "build", "brands", "people", "remember."],
+];
+let wordIndex = 0;
+
+// Career timeline for the years ruler, in decimal years (Apr 2014 = 2014.25).
+// `logo` points to a file in /public; companies without one show their `mark` monogram.
+const career = [
+  { from: 2007, company: "Agência Orion", role: "Graphic Designer", mark: "O" },
+  { from: 2008, company: "Rede Estado", role: "Graphic Designer", mark: "RE" },
+  { from: 2009, company: "Agência Aliah", role: "Graphic Designer", mark: "Al" },
+  { from: 2009.5, company: "Agência Pitaia", role: "Co-founder, Visual & Motion Designer", mark: "P" },
+  { from: 2010, company: "Sótom Comunica", role: "Art Director", mark: "S" },
+  { from: 2014.25, company: "Urso Agência", role: "Co-founder & Creative Director", mark: "U", logo: "/images/home/companies/urso.png" },
+  { from: 2020.58, company: "Cortex", role: "Senior Brand Designer", mark: "C", logo: "/images/home/cortex-mark.png" },
+  { from: 2022.67, company: "Cortex", role: "Brand & Design Coordinator", mark: "C", logo: "/images/home/cortex-mark.png" },
+];
+const careerStart = career[0].from;
+const buildDate = new Date();
+const builtAt = buildDate.getFullYear() + buildDate.getMonth() / 12;
+const careerYears = builtAt - careerStart;
+const currentJob = career[career.length - 1];
+// One marker per company, placed where it starts on the ruler.
+const companyMarkers = career.filter((job, i) => i === 0 || career[i - 1].company !== job.company);
+// One tick every 0.1 year, running a few years past today so "now" sits mid-ruler.
+// The script re-renders against the visitor's clock.
+const ticks = Array.from({ length: (Math.ceil(careerYears) + 4) * 10 + 1 }, (_, i) => ({
+  major: i % 10 === 0,
+  half: i % 10 === 5,
+  label: i % 10 === 0 ? i / 10 : null,
+}));
+
+const roles = ["Creative Director", "Brand Designer", "Brand Strategist"];
+
+interface WorkTile {
+  href: string;
+  image: string;
+  alt: string;
+  title: string;
+  note: string;
+  pill: string;
+  ratio: string;
+  delay: number;
+  /** Fast-cut logo reel that covers the still image once the tile is in view. */
+  reel?: boolean;
+}
+
+const left: WorkTile[] = [
+  {
+    href: "/work/cortex-summit/",
+    image: "/images/work/cortex-summit-thumb.jpg",
+    alt: "Cortex Summit coral symbol on a deep purple background",
+    title: "Cortex Summit",
+    note: "Identity for Brazil's largest AI and go-to-market event",
+    pill: "2026",
+    ratio: "1 / 1",
+    delay: 0,
+  },
+  {
+    href: "/work/dont-feed-this-monster/",
+    image: "/images/work/dont-feed-this-monster-thumb.jpg",
+    alt: "Don't Feed This Monster pink poster with an illustrated monster",
+    title: "Don't Feed This Monster",
+    note: "Campaign that cut plate waste by 30%",
+    pill: "2019",
+    ratio: "1 / 1",
+    delay: 90,
+  },
+];
+
+const right: WorkTile[] = [
+  {
+    href: "/work/tale-of-fire-and-history/",
+    image: "/images/work/tale-of-fire-and-history.gif",
+    alt: "Animated rocket launching over flames",
+    title: "The Tale of Fire and History",
+    note: "Film for fire prevention in Brazil",
+    pill: "2019",
+    ratio: "3 / 2",
+    delay: 180,
+  },
+  {
+    href: "/work/logofolio/",
+    image: "/images/work/logofolio-thumb.jpg",
+    alt: "Grid of brand logos from the logofolio collection",
+    title: "Logofolio",
+    note: "100+ identities built over 19 years",
+    pill: "Brand design",
+    ratio: "3 / 2",
+    delay: 270,
+    reel: true,
+  },
+];
+---
+
+<section class="bento" id="top" aria-label="Introduction and selected work">
+  <div class="container bento__grid">
+    <div class="bento__col bento__col--left">
+      {left.map((tile) => (
+        <a data-card class:list={["tile", "tile--work", "tile--project", { "tile--reel": tile.reel }]} href={tile.href} style={`--ratio: ${tile.ratio}; --d: ${tile.delay}ms`}>
+          <img src={tile.image} alt={tile.alt} width="1280" height="1600" loading="eager" decoding="async" />
+          <span class="tile__scrim" aria-hidden="true"></span>
+          <span class="pill">{tile.pill}</span>
+          <span class="tile__text">
+            <strong>{tile.title}</strong>
+            <span>{tile.note}</span>
+          </span>
+        </a>
+      ))}
+    </div>
+
+    <div class="bento__center">
+      <a data-card class="tile tile--work tile--about" href="/about/" style="--ratio: 2 / 1; --d: 120ms">
+        <img
+          src="/images/home/about-mountain.jpg"
+          alt="Filipe Sales smiling in a beanie and sunglasses on a mountain trail"
+          width="1200"
+          height="600"
+          loading="eager"
+          decoding="async"
+        />
+        <img class="about__alt" src="/images/home/about-studio.jpg" alt="" width="1200" height="600" loading="lazy" decoding="async" />
+        <span class="tile__scrim" aria-hidden="true"></span>
+        <span class="pill pill--arrow" aria-hidden="true">↗</span>
+        <span class="tile__text">
+          <strong>About me</strong>
+        </span>
+      </a>
+
+      <div class="intro">
+        <h1 class="intro__title">
+          {lines.map((words) => (
+            <span class="intro__line">
+              {words.map((word) => (
+                <>
+                  <span class="intro__word" style={`--i: ${wordIndex++}`}>{word}</span>{" "}
+                </>
+              ))}
+            </span>
+          ))}
+        </h1>
+
+        <p class="intro__status">
+          <span class="intro__status-label">Currently at</span>
+          <span class="chip chip--now">
+            <img src="/images/home/cortex-mark.png" alt="" width="20" height="20" />
+            Cortex
+          </span>
+        </p>
+
+      </div>
+
+      <div data-card class="tile tile--mini tile--brands" style="--d: 300ms" data-rotator data-interval="2400" data-offset="1200">
+        <strong class="tile__heading">Brands I've worked with</strong>
+        <span class="visually-hidden">{clients.map((c) => c.name).join(", ")}</span>
+        <div class="brands" aria-hidden="true">
+          {clients.map((client, i) => (
+            <span class:list={["brands__slide", { "is-active": i === 0 }]} data-rotator-item>
+              {client.logo ? (
+                <img src={client.logo} alt="" loading="lazy" decoding="async" />
+              ) : (
+                <span class="brands__name">{client.name}</span>
+              )}
+            </span>
+          ))}
+        </div>
+        <div class="dots">
+          {clients.map((client, i) => (
+            <button
+              type="button"
+              class:list={["dot", { "is-active": i === 0 }]}
+              aria-label={`Show ${client.name}`}
+              aria-pressed={i === 0 ? "true" : "false"}
+              data-rotator-dot
+            ></button>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="bento__col bento__col--right" id="work">
+      <div data-card class="tile tile--roles" style="--d: 120ms" data-rotator data-interval="2400">
+        <span class="tile__head">
+          <strong class="tile__heading">What I do</strong>
+          <span class="dots">
+            {roles.map((role, i) => (
+              <button
+                type="button"
+                class:list={["dot", { "is-active": i === 0 }]}
+                aria-label={`Show ${role}`}
+                aria-pressed={i === 0 ? "true" : "false"}
+                data-rotator-dot
+              ></button>
+            ))}
+          </span>
+        </span>
+        <p class="roles">
+          <span class="visually-hidden">{roles.slice(0, -1).join(", ")} and {roles.at(-1)}</span>
+          <span class="roles__window" aria-hidden="true">
+            {roles.map((role, i) => (
+              <span class:list={["roles__item", { "is-active": i === 0 }]} data-rotator-item>{role}</span>
+            ))}
+          </span>
+        </p>
+      </div>
+
+      {right.map((tile) => (
+        <a data-card class:list={["tile", "tile--work", "tile--project", { "tile--reel": tile.reel }]} href={tile.href} style={`--ratio: ${tile.ratio}; --d: ${tile.delay}ms`}>
+          <img src={tile.image} alt={tile.alt} width="1280" height="1280" loading="eager" decoding="async" />
+          {tile.reel && (
+            <span class="reel" data-reel aria-hidden="true">
+              {logos.map((logo) => (
+                <span class="reel__frame" style={`--c: ${logo.color}`} data-src={logo.src}><i></i></span>
+              ))}
+            </span>
+          )}
+          <span class="tile__scrim" aria-hidden="true"></span>
+          <span class="pill">{tile.pill}</span>
+          <span class="tile__text">
+            <strong>{tile.title}</strong>
+            <span>{tile.note}</span>
+          </span>
+        </a>
+      ))}
+
+      <div data-card class="tile tile--years" style="--d: 150ms" data-years data-start={careerStart} data-career={JSON.stringify(career)}>
+        <div
+          class="ruler"
+          role="slider"
+          tabindex="0"
+          aria-label="Career timeline — drag or use the arrow keys"
+          aria-valuemin="0"
+          aria-valuemax={careerYears.toFixed(1)}
+          aria-valuenow={careerYears.toFixed(1)}
+          aria-valuetext={`${Math.floor(builtAt)}: ${currentJob.role}, ${currentJob.company}`}
+          data-ruler
+        >
+          <div class="ruler__track" style={`transform: translateX(${-(careerYears * 60) - 3}px)`} data-track>
+            {ticks.map((t) => (
+              <span class:list={["ruler__tick", { "ruler__tick--major": t.major, "ruler__tick--half": t.half }]}>
+                {t.label !== null && <em>{t.label}</em>}
+              </span>
+            ))}
+            {companyMarkers.map((job, i) => (
+              <span
+                class="ruler__span"
+                style={`left: ${(job.from - careerStart) * 60 + 3}px; width: ${((companyMarkers[i + 1]?.from ?? builtAt) - job.from) * 60}px`}
+                data-company-marker={job.company}
+                data-span-from={job.from}
+                data-last={i === companyMarkers.length - 1 ? "" : undefined}
+              ></span>
+            ))}
+            {companyMarkers.map((job) => (
+              <span
+                class="ruler__logo badge"
+                style={`left: ${(job.from - careerStart) * 60 + 3}px`}
+                data-company-marker={job.company}
+                title={job.company}
+              >
+                {job.logo ? <img src={job.logo} alt="" width="22" height="22" /> : job.mark}
+              </span>
+            ))}
+          </div>
+          <span class="ruler__pointer" aria-hidden="true"></span>
+        </div>
+        <div class="years__row" aria-hidden="true">
+          <div class="years__job">
+            <span class="years__company">
+              <span class="badge badge--lg" data-company-badge>
+                {currentJob.logo ? <img src={currentJob.logo} alt="" width="28" height="28" /> : currentJob.mark}
+              </span>
+              <span class="tile__sub" data-company>{currentJob.company}</span>
+            </span>
+            <strong class="years__role" data-role>{currentJob.role}</strong>
+          </div>
+          <div class="years__meta">
+            <p class="years__value">
+              <span class="years__number" data-value>{Math.floor(careerYears)}</span><span class="years__unit">yr</span>
+            </p>
+            <span class="years__year" data-year>{Math.floor(builtAt)}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bento {
+    --gap: clamp(0.75rem, 0.4rem + 1.2vw, 1.5rem);
+    --tile-radius: clamp(20px, 2.2vw, 32px);
+    --tile-bg: oklch(99% 0.004 92);
+    /* Bottom matches the tile gap so the footer tiles read as the next row of the board */
+    padding-block: var(--space-md) var(--gap);
+  }
+
+  .bento__grid {
+    display: grid;
+    gap: var(--gap);
+    /* minmax(0, …) so the endless brand strip can't widen the column past the screen */
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .bento__col {
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    align-content: start;
+  }
+
+  .bento__center {
+    min-width: 0;
+    order: -1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+  }
+
+  @media (min-width: 62rem) {
+    .bento {
+      padding-block-start: var(--space-sm);
+    }
+
+    .bento__grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1.1fr);
+    }
+
+    .bento__col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* The last image tile in each side column absorbs any leftover height, so all three columns end flush */
+    .bento__col > a.tile--work:last-of-type {
+      flex: 1 0 auto;
+    }
+
+    .bento__center {
+      order: 0;
+    }
+  }
+
+  /* ---------- Tiles ---------- */
+  .tile {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: var(--tile-radius);
+    background: var(--tile-bg);
+    box-shadow:
+      0 0 0 1px oklch(0% 0 0 / 4%),
+      0 1px 2px oklch(0% 0 0 / 4%);
+  }
+
+  /* Card hover lives in global.css + src/scripts/card-hover.ts (data-card) */
+
+  a.tile:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  .tile--work {
+    aspect-ratio: var(--ratio);
+    background: var(--color-ink);
+    color: oklch(98% 0 0);
+  }
+
+  .tile--work img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-slow) var(--ease-out-quart);
+  }
+
+  .tile__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, oklch(14% 0.03 300 / 78%), oklch(14% 0.03 300 / 0%) 52%);
+  }
+
+  /* Fast-cut logo reel: hard cuts between frames, colour mark centred on each brand colour */
+  .reel {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: transform var(--duration-slow) var(--ease-out-quart);
+  }
+
+  .reel.is-playing {
+    opacity: 1;
+  }
+
+  .reel__frame {
+    position: absolute;
+    inset: 0;
+    background: var(--c);
+    visibility: hidden;
+  }
+
+  .reel__frame.is-active {
+    visibility: visible;
+  }
+
+  /* Colour version of the mark = bottom-left 600×400 of each 1200×1200 logofolio card */
+  .reel__frame i {
+    position: absolute;
+    left: -25%;
+    width: 150%;
+    top: 50%;
+    aspect-ratio: 3 / 2;
+    transform: translateY(-50%);
+    background-size: 200% auto;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    clip-path: inset(1.5% 0 0 0);
+  }
+
+  /* Without the reel the still is a light logo sheet: fade to the tile surface with dark text */
+  @media (prefers-reduced-motion: reduce) {
+    .tile--reel {
+      background: var(--tile-bg);
+      color: var(--color-ink);
+    }
+
+    .tile--reel .tile__scrim {
+      background: linear-gradient(to top, var(--tile-bg) 8%, oklch(99% 0.004 92 / 0%) 52%);
+    }
+
+    .tile--reel .tile__text span {
+      color: var(--color-muted-strong);
+    }
+  }
+
+  .tile__text {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: clamp(1rem, 0.7rem + 1vw, 1.5rem);
+  }
+
+  .tile__text strong {
+    font-size: clamp(1.05rem, 0.9rem + 0.5vw, 1.35rem);
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .tile__text span {
+    font-size: 0.9375rem;
+    line-height: 1.35;
+    color: oklch(98% 0 0 / 88%);
+  }
+
+  .pill {
+    position: absolute;
+    top: clamp(0.75rem, 0.5rem + 0.8vw, 1.25rem);
+    right: clamp(0.75rem, 0.5rem + 0.8vw, 1.25rem);
+    padding: 0.35rem 0.9rem;
+    border-radius: var(--radius-full);
+    background: oklch(99% 0.004 92 / 92%);
+    color: var(--color-ink);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.3;
+    box-shadow:
+      inset 0 -2px 2px oklch(100% 0 0 / 50%),
+      0 2px 4px -1px oklch(0% 0 0 / 25%);
+  }
+
+  /* Small tiles */
+  .tile--mini {
+    min-height: 9.5rem;
+    padding: var(--space-sm) var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .tile__heading {
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
+
+  /* Mini tiles share one skeleton: heading on top, the content pinned to the bottom, caption last */
+  .tile__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2xs);
+  }
+
+  /* About: two sides of the same person — out on the trail, then (on hover) at the studio wall */
+  .tile--about .about__alt {
+    opacity: 0;
+    transition:
+      opacity 600ms var(--ease-out-quart),
+      transform var(--duration-slow) var(--ease-out-quart);
+  }
+
+  a.tile--about:hover .about__alt,
+  a.tile--about:focus-visible .about__alt {
+    opacity: 1;
+  }
+
+  .pill--arrow {
+    display: grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    padding: 0;
+    font-size: 1rem;
+    transition: transform var(--duration-base) var(--ease-out-quart);
+  }
+
+  a.tile--about:hover .pill--arrow,
+  a.tile--about:focus-visible .pill--arrow {
+    transform: translate(2px, -2px);
+  }
+
+  .tile__sub {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  /* Brands: one mark at a time, sliding sideways on the same beat as "What I do" */
+  .tile--brands {
+    gap: var(--space-xs);
+  }
+
+  .brands {
+    position: relative;
+    height: 3rem;
+    margin-top: auto;
+    overflow: hidden;
+  }
+
+  .brands__slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    transform: translateX(105%);
+    opacity: 0;
+    transition:
+      transform 750ms var(--ease-out-expo),
+      opacity 450ms var(--ease-out-quart);
+  }
+
+  .brands__slide.is-active {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .brands__slide.is-leaving {
+    transform: translateX(-105%);
+    opacity: 0;
+  }
+
+  /* One-colour marks, left-aligned under the heading whatever their proportions */
+  .brands__slide img {
+    max-height: 2.75rem;
+    max-width: min(11rem, 100%);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    object-position: left center;
+    filter: brightness(0);
+    opacity: 0.7;
+  }
+
+  .brands__name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.75rem;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--color-ink);
+    opacity: 0.7;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brands__slide {
+      transition: none;
+    }
+  }
+
+  /* Years ruler: a draggable career timeline (one tick = 0.1 year, 60px per year) */
+  .tile--years {
+    --ruler-ink: var(--color-primary);
+    padding: var(--space-sm) var(--space-md) var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .ruler {
+    position: relative;
+    height: 5.9rem;
+    overflow: hidden;
+    cursor: ew-resize;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    border-radius: var(--radius-md);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  }
+
+  .ruler:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .ruler__track {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 3.6rem;
+    display: flex;
+    align-items: flex-end;
+    transition: transform 150ms ease-out;
+    will-change: transform;
+    pointer-events: none;
+  }
+
+  .ruler.is-scrubbing .ruler__track {
+    transition: none;
+  }
+
+  .ruler__tick {
+    position: relative;
+    flex: 0 0 6px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  .ruler__tick::before {
+    content: "";
+    width: 1.5px;
+    height: 18px;
+    border-radius: 2px;
+    background: color-mix(in oklch, var(--ruler-ink) 35%, transparent);
+  }
+
+  .ruler__tick--half::before {
+    height: 27px;
+    background: color-mix(in oklch, var(--ruler-ink) 65%, transparent);
+  }
+
+  .ruler__tick--major::before {
+    width: 2px;
+    height: 38px;
+    background: var(--ruler-ink);
+  }
+
+  .ruler__tick em {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--ruler-ink);
+  }
+
+  .ruler__pointer {
+    position: absolute;
+    left: 50%;
+    top: calc(3.6rem + 3px);
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-bottom: 8px solid var(--color-ink);
+    border-top: 0;
+    transform: translateX(-50%);
+  }
+
+  /* Company badge: the logo when we have it, a monogram otherwise */
+  .badge {
+    display: inline-grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: oklch(100% 0 0);
+    box-shadow: 0 0 0 1px oklch(0% 0 0 / 10%);
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--color-ink-soft);
+    overflow: hidden;
+  }
+
+  .badge img {
+    width: 72%;
+    height: 72%;
+    object-fit: contain;
+  }
+
+  .badge--lg {
+    width: 28px;
+    height: 28px;
+    font-size: 0.6875rem;
+  }
+
+  /* Logos ride the track under the ticks; the pointer above picks the active one */
+  .ruler__logo {
+    position: absolute;
+    top: calc(3.6rem + 14px);
+    transform: translateX(-50%) scale(0.86);
+    opacity: 0.45;
+    filter: grayscale(1);
+    transition:
+      opacity var(--duration-fast) var(--ease-out-quart),
+      transform var(--duration-fast) var(--ease-out-quart),
+      filter var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .ruler__logo.is-active {
+    opacity: 1;
+    filter: none;
+    transform: translateX(-50%) scale(1);
+    box-shadow:
+      0 0 0 1.5px var(--color-primary),
+      0 2px 6px -1px oklch(0% 0 0 / 25%);
+  }
+
+  /* Each company's stretch of the timeline, drawn as a bar along the logo lane */
+  .ruler__span {
+    position: absolute;
+    top: calc(3.6rem + 14px + 10px);
+    height: 2px;
+    border-radius: 2px;
+    background: oklch(84% 0.008 86);
+    transition: background var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .ruler__span.is-active {
+    background: var(--color-primary);
+  }
+
+  .years__company {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .years__row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-sm);
+  }
+
+  /* Reserve two lines so longer role titles don't make the card jump while scrubbing */
+  .years__job {
+    min-height: 3.6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .years__role {
+    display: block;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    max-width: 18ch;
+  }
+
+  .years__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+  }
+
+  .years__value {
+    display: flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    color: var(--color-primary);
+  }
+
+  .years__number {
+    font-size: clamp(2rem, 1.4rem + 1.6vw, 2.9rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .years__unit {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-muted);
+  }
+
+  .years__year {
+    margin-top: 0.15rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+  }
+
+  /* Roles: a slim tile — label and dots on one line, the title rising through a one-line window */
+  .tile--roles {
+    padding: var(--space-sm) var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .tile--roles .tile__head {
+    align-items: center;
+  }
+
+  .roles__window {
+    position: relative;
+    display: block;
+    height: 1.2em;
+    overflow: hidden;
+    font-size: clamp(1.5rem, 1.1rem + 0.9vw, 1.95rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    color: var(--color-ink);
+  }
+
+  .roles__item {
+    position: absolute;
+    inset: 0;
+    transform: translateY(105%);
+    opacity: 0;
+    transition:
+      transform 750ms var(--ease-out-expo),
+      opacity 450ms var(--ease-out-quart);
+  }
+
+  .roles__item.is-active {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .roles__item.is-leaving {
+    transform: translateY(-105%);
+    opacity: 0;
+  }
+
+  .dots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.1rem;
+  }
+
+  .tile--brands .dots {
+    margin-left: -0.4rem;
+  }
+
+  .tile--roles .dots {
+    margin-right: -0.4rem;
+  }
+
+  .dot {
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .dot::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-full);
+    background: oklch(80% 0.01 85);
+    transition:
+      width var(--duration-base) var(--ease-out-quart),
+      background var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .dot.is-active::before {
+    width: 1.25rem;
+    background: var(--color-primary);
+  }
+
+  .dot:hover::before {
+    background: var(--color-primary-glow);
+  }
+
+  .dot:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+    border-radius: var(--radius-full);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .roles__item,
+    .dot::before {
+      transition: none;
+    }
+  }
+
+  /* ---------- Intro ---------- */
+  .intro {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: var(--space-xl);
+  }
+
+  .intro__title {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: clamp(2.5rem, 1.5rem + 3.4vw, 3.9rem);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    color: var(--color-ink);
+  }
+
+  .intro__line {
+    display: block;
+  }
+
+  .intro__word {
+    display: inline-block;
+  }
+
+  .intro__status {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-top: var(--space-lg);
+    font-size: 1rem;
+    color: var(--color-ink-soft);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 1rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    transition: transform var(--duration-base) var(--ease-out-quart);
+  }
+
+  .chip--now {
+    padding-left: 0.5rem;
+    background: var(--tile-bg);
+    color: var(--color-ink);
+    box-shadow:
+      0 1px 3px oklch(0% 0 0 / 10%),
+      0 1px 2px -1px oklch(0% 0 0 / 10%);
+    transform: rotate(2deg);
+  }
+
+  .chip--now img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+
+  .chip--now:hover {
+    transform: rotate(3.5deg) translateY(-1px);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 36rem) {
+    .intro {
+      padding-block: var(--space-lg) var(--space-md);
+    }
+  }
+
+  /* ---------- Entrance ----------
+     Tiles rise in from the outside edges, words follow, chips settle into their tilt.
+     Wrapped in no-preference so the resting state is always the visible one. */
+  @media (prefers-reduced-motion: no-preference) {
+    .tile {
+      animation: tile-in 900ms var(--ease-out-expo) backwards;
+      animation-delay: calc(var(--d, 0ms) + 80ms);
+    }
+
+    .intro__word {
+      animation: word-in 900ms var(--ease-out-expo) both;
+      animation-delay: calc(220ms + var(--i) * 70ms);
+    }
+
+    .chip {
+      animation: chip-in 800ms var(--ease-out-expo) both;
+    }
+
+    .chip--now {
+      animation-delay: 1100ms;
+    }
+
+    .intro__status-label {
+      animation: fade-up 800ms var(--ease-out-expo) both;
+    }
+
+    .intro__status-label {
+      animation-delay: 1040ms;
+    }
+  }
+
+  @keyframes tile-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px) scale(0.98);
+    }
+  }
+
+  @keyframes word-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.45em);
+      filter: blur(8px);
+    }
+  }
+
+  @keyframes chip-in {
+    from {
+      opacity: 0;
+      transform: scale(0.8) rotate(0deg);
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile,
+    .tile--work img,
+    .reel,
+    .about__alt,
+    .chip {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Logo reel: frames load once the tile nears the viewport, then hard-cut while it stays in view.
+  const FRAME_MS = 250;
+
+  document.querySelectorAll<HTMLElement>("[data-reel]").forEach((reel) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const frames = [...reel.querySelectorAll<HTMLElement>(".reel__frame")];
+    let index = 0;
+    let timer: number | undefined;
+    let loaded = false;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!loaded) {
+            frames.forEach((frame) => {
+              frame.querySelector("i")!.style.backgroundImage = `url(${frame.dataset.src})`;
+            });
+            loaded = true;
+          }
+          reel.classList.add("is-playing");
+          frames[index].classList.add("is-active");
+          window.clearInterval(timer);
+          timer = window.setInterval(() => {
+            frames[index].classList.remove("is-active");
+            index = (index + 1) % frames.length;
+            frames[index].classList.add("is-active");
+          }, FRAME_MS);
+        } else {
+          window.clearInterval(timer);
+        }
+      },
+      { rootMargin: "200px 0px" },
+    );
+    observer.observe(reel);
+  });
+
+  // Years ruler: drag, wheel or arrow keys scrub the career timeline; counts up once on load.
+  const yearsTile = document.querySelector<HTMLElement>("[data-years]");
+
+  if (yearsTile) {
+    const PX_PER_YEAR = 60;
+    const start = Number(yearsTile.dataset.start);
+    const career = JSON.parse(yearsTile.dataset.career ?? "[]") as {
+      from: number;
+      company: string;
+      role: string;
+      mark: string;
+      logo?: string;
+    }[];
+    const ruler = yearsTile.querySelector<HTMLElement>("[data-ruler]")!;
+    const track = yearsTile.querySelector<HTMLElement>("[data-track]")!;
+    const companyEl = yearsTile.querySelector<HTMLElement>("[data-company]")!;
+    const badgeEl = yearsTile.querySelector<HTMLElement>("[data-company-badge]")!;
+    const markers = [...yearsTile.querySelectorAll<HTMLElement>("[data-company-marker]")];
+    const roleEl = yearsTile.querySelector<HTMLElement>("[data-role]")!;
+    const valueEl = yearsTile.querySelector<HTMLElement>("[data-value]")!;
+    const yearEl = yearsTile.querySelector<HTMLElement>("[data-year]")!;
+
+    const today = new Date();
+    const now = today.getFullYear() + today.getMonth() / 12 + (today.getDate() - 1) / 365;
+    const max = now - start;
+    let value = max;
+    let intro = 0;
+
+    const render = (next: number) => {
+      value = Math.min(max, Math.max(0, next));
+      track.style.transform = `translateX(${-(value * PX_PER_YEAR) - 3}px)`;
+
+      const at = start + value;
+      const job = [...career].reverse().find((entry) => at >= entry.from) ?? career[0];
+      const atNow = value >= max - 0.001;
+
+      if (companyEl.textContent !== job.company) {
+        companyEl.textContent = job.company;
+        badgeEl.replaceChildren(
+          job.logo ? Object.assign(new Image(28, 28), { src: job.logo, alt: "" }) : job.mark,
+        );
+        markers.forEach((marker) =>
+          marker.classList.toggle("is-active", marker.dataset.companyMarker === job.company),
+        );
+      }
+      roleEl.textContent = job.role;
+      valueEl.textContent = atNow ? String(Math.floor(value)) : value.toFixed(1);
+      yearEl.textContent = String(Math.floor(at));
+      ruler.setAttribute("aria-valuenow", value.toFixed(1));
+      ruler.setAttribute("aria-valuemax", max.toFixed(1));
+      ruler.setAttribute("aria-valuetext", `${Math.floor(at)}: ${job.role}, ${job.company}`);
+    };
+
+    const stopIntro = () => {
+      if (!intro) return;
+      cancelAnimationFrame(intro);
+      intro = 0;
+      ruler.classList.remove("is-scrubbing");
+    };
+
+    // Drag
+    let dragging = false;
+    let dragX = 0;
+    let dragFrom = 0;
+
+    ruler.addEventListener("pointerdown", (event) => {
+      stopIntro();
+      dragging = true;
+      dragX = event.clientX;
+      dragFrom = value;
+      ruler.classList.add("is-scrubbing");
+      try {
+        ruler.setPointerCapture(event.pointerId);
+      } catch {
+        // Capture can fail for synthetic pointers; the drag still tracks moves over the ruler.
+      }
+    });
+
+    ruler.addEventListener("pointermove", (event) => {
+      if (!dragging) return;
+      render(dragFrom - (event.clientX - dragX) / PX_PER_YEAR);
+    });
+
+    const release = (event: PointerEvent) => {
+      if (!dragging) return;
+      dragging = false;
+      if (ruler.hasPointerCapture(event.pointerId)) ruler.releasePointerCapture(event.pointerId);
+      ruler.classList.remove("is-scrubbing");
+    };
+    ruler.addEventListener("pointerup", release);
+    ruler.addEventListener("pointercancel", release);
+
+    // Horizontal trackpad swipes
+    ruler.addEventListener(
+      "wheel",
+      (event) => {
+        if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+        event.preventDefault();
+        stopIntro();
+        render(value + event.deltaX / PX_PER_YEAR);
+      },
+      { passive: false },
+    );
+
+    // Keyboard: arrows step a year (Shift: a tenth), Home/End jump to the ends
+    ruler.addEventListener("keydown", (event) => {
+      const step = event.shiftKey ? 0.1 : 1;
+      const moves: Record<string, number> = {
+        ArrowLeft: value - step,
+        ArrowDown: value - step,
+        ArrowRight: value + step,
+        ArrowUp: value + step,
+        Home: 0,
+        End: max,
+      };
+      if (!(event.key in moves)) return;
+      event.preventDefault();
+      stopIntro();
+      render(moves[event.key]);
+    });
+
+    const lastSpan = yearsTile.querySelector<HTMLElement>(".ruler__span[data-last]");
+    if (lastSpan) {
+      lastSpan.style.width = `${(now - Number(lastSpan.dataset.spanFrom)) * PX_PER_YEAR}px`;
+    }
+    companyEl.textContent = ""; // force the first render to sync badge + markers
+    render(max);
+
+    // Count up from year zero the first time the card is seen
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      render(0);
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          observer.disconnect();
+          const duration = 1800;
+          const begin = performance.now() + 450;
+          ruler.classList.add("is-scrubbing");
+          const frame = (time: number) => {
+            const t = Math.min(1, Math.max(0, (time - begin) / duration));
+            render(max * (1 - Math.pow(2, -10 * t)) + (t === 1 ? max * Math.pow(2, -10) : 0));
+            if (t < 1) intro = requestAnimationFrame(frame);
+            else stopIntro();
+          };
+          intro = requestAnimationFrame(frame);
+        },
+        { threshold: 0.4 },
+      );
+      observer.observe(yearsTile);
+    }
+  }
+  // Rotators ("What I do", brands): one item at a time on a steady beat; pause on hover/focus;
+  // dots jump straight to an item. data-offset staggers them so they don't change together.
+  document.querySelectorAll<HTMLElement>("[data-rotator]").forEach((root) => {
+    const items = [...root.querySelectorAll<HTMLElement>("[data-rotator-item]")];
+    const dots = [...root.querySelectorAll<HTMLButtonElement>("[data-rotator-dot]")];
+    const interval = Number(root.dataset.interval ?? 2400);
+    const offset = Number(root.dataset.offset ?? 0);
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let current = 0;
+    let timer: number | undefined;
+
+    const show = (next: number) => {
+      if (next === current) return;
+      const leaving = items[current];
+      leaving.classList.remove("is-active");
+      leaving.classList.add("is-leaving");
+      window.setTimeout(() => leaving.classList.remove("is-leaving"), 760);
+      items[next].classList.add("is-active");
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("is-active", i === next);
+        dot.setAttribute("aria-pressed", String(i === next));
+      });
+      current = next;
+    };
+
+    const play = () => {
+      if (still) return;
+      window.clearInterval(timer);
+      timer = window.setInterval(() => show((current + 1) % items.length), interval);
+    };
+    const pause = () => window.clearInterval(timer);
+
+    dots.forEach((dot, i) =>
+      dot.addEventListener("click", () => {
+        show(i);
+        play();
+      }),
+    );
+    root.addEventListener("pointerenter", pause);
+    root.addEventListener("pointerleave", play);
+    root.addEventListener("focusin", pause);
+    root.addEventListener("focusout", play);
+    window.setTimeout(play, offset);
+  });
+</script>

@@ -63,6 +63,12 @@
   --duration-slow: 750ms;
   --duration-choreo: 950ms;
 
+  /* Card hover (matches the dousanmiao.com reference): a 2% swell that eases in quickly
+     and drifts back slowly. No shadow, nothing else on the page reacts. */
+  --card-hover-scale: 1.02;
+  --card-hover-in: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --card-hover-out: 550ms cubic-bezier(0.25, 1, 0.5, 1);
+
   /* z-index scale */
   --z-base: 0;
   --z-sticky: 20;
@@ -198,6 +204,29 @@ button {
       opacity var(--duration-slow) var(--ease-out-expo),
       transform var(--duration-slow) var(--ease-out-expo);
   }
+}
+
+/* Card hover (see src/scripts/card-hover.ts): one transform built from three variables so the
+   swell on the hovered card and the nudge on its neighbours can run at the same time. */
+[data-card],
+[data-card][data-reveal].is-revealed {
+  --card-x: 0px;
+  --card-y: 0px;
+  --card-s: 1;
+  transform: translate(var(--card-x), var(--card-y)) scale(var(--card-s));
+  transition: transform var(--card-hover-out);
+}
+
+[data-card][data-reveal].is-revealed {
+  transition:
+    opacity var(--duration-slow) var(--ease-out-expo),
+    transform var(--card-hover-out);
+}
+
+[data-card].is-card-hover,
+[data-card][data-reveal].is-revealed.is-card-hover {
+  --card-s: var(--card-hover-scale);
+  transition: transform var(--card-hover-in);
 }
 
 /* Ember glow — used behind the hero and closing sections */

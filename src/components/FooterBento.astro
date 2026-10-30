@@ -1,0 +1,176 @@
+---
+// Footer for the bento hero: the same tiles, gap and radius as the board above,
+// so the page ends as one more row of the grid instead of a ruled-off band.
+const year = new Date().getFullYear();
+const email = "oi@filipesales.com.br";
+
+const social = [
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/filipesales/" },
+  { label: "Behance", href: "https://www.behance.net/filipe_sales" },
+  { label: "Dribbble", href: "https://dribbble.com/fifasales" },
+];
+---
+
+<footer class="foot">
+  <div class="container foot__grid">
+    <div data-card class="foot__tile foot__tile--contact">
+      <strong class="foot__heading">Contact</strong>
+      <a class="foot__email" href={`mailto:${email}`}>
+        {email}
+        <span class="foot__arrow" aria-hidden="true">→</span>
+      </a>
+      <span class="foot__sub">Based in Brazil</span>
+    </div>
+
+    <nav data-card class="foot__tile foot__tile--social" aria-label="Social">
+      <strong class="foot__heading">Social</strong>
+      <ul class="foot__links">
+        {social.map((link) => (
+          <li>
+            <a href={link.href} target="_blank" rel="noopener noreferrer">
+              {link.label}
+              <span class="foot__arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+
+  <p class="container foot__copy">© {year} Filipe Sales</p>
+</footer>
+
+<style>
+  .foot {
+    /* Same rhythm as the bento board (see HeroBento.astro) */
+    --gap: clamp(0.75rem, 0.4rem + 1.2vw, 1.5rem);
+    --tile-radius: clamp(20px, 2.2vw, 32px);
+    --tile-bg: oklch(99% 0.004 92);
+    padding-bottom: var(--space-lg);
+  }
+
+  .foot__grid {
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: 1fr;
+  }
+
+  /* Same three columns as the board; contact spans the first two so edges line up */
+  @media (min-width: 62rem) {
+    .foot__grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1.1fr);
+    }
+
+    .foot__tile--contact {
+      grid-column: span 2;
+    }
+  }
+
+  .foot__tile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-md) var(--space-md) var(--space-lg);
+    border-radius: var(--tile-radius);
+    background: var(--tile-bg);
+    box-shadow:
+      0 0 0 1px oklch(0% 0 0 / 4%),
+      0 1px 2px oklch(0% 0 0 / 4%);
+  }
+
+  .foot__heading {
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
+
+  .foot__email {
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.3em;
+    margin-top: auto;
+    padding-top: var(--space-lg);
+    font-size: clamp(1.6rem, 0.9rem + 2.6vw, 3.25rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    color: var(--color-ink);
+    overflow-wrap: anywhere;
+    transition: color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .foot__sub {
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+  }
+
+  .foot__links {
+    list-style: none;
+    margin: auto 0 0;
+    padding: var(--space-md) 0 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .foot__links a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding-block: 0.35rem;
+    font-size: clamp(1.25rem, 1rem + 0.8vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+    transition: color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .foot__arrow {
+    display: inline-block;
+    font-weight: 500;
+    color: var(--color-muted);
+    transition:
+      transform var(--duration-base) var(--ease-out-quart),
+      color var(--duration-fast) var(--ease-out-quart);
+  }
+
+  .foot__email:hover,
+  .foot__email:focus-visible,
+  .foot__links a:hover,
+  .foot__links a:focus-visible {
+    color: var(--color-primary);
+  }
+
+  .foot__email:hover .foot__arrow,
+  .foot__email:focus-visible .foot__arrow {
+    color: var(--color-primary);
+    transform: translateX(0.15em);
+  }
+
+  .foot__links a:hover .foot__arrow,
+  .foot__links a:focus-visible .foot__arrow {
+    color: var(--color-primary);
+    transform: translate(0.12em, -0.12em);
+  }
+
+  .foot__email:focus-visible,
+  .foot__links a:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  .foot__copy {
+    padding-top: var(--space-md);
+    font-size: var(--text-label);
+    color: var(--color-muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .foot__arrow {
+      transition: none;
+    }
+  }
+</style>
